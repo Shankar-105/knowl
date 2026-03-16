@@ -68,6 +68,7 @@ const UploadForm = () => {
         resolver: zodResolver(UploadSchema),
         defaultValues: {
             title: '',
+            persona: 'rachel',
             pdfFile: undefined,
             coverImage: undefined,
         },
@@ -77,6 +78,8 @@ const UploadForm = () => {
         if(!userId) {
            return toast.error("Please login to upload nodes");
         }
+
+        console.log("[UploadForm] onSubmit triggered", { title: data.title, fileName: data.pdfFile.name, persona: data.persona });
 
         setIsSubmitting(true);
 
@@ -94,6 +97,7 @@ const UploadForm = () => {
 
             const fileTitle = data.title || data.pdfFile.name.replace(/\.[^/.]+$/, "");
             const file = data.pdfFile;
+            let uploadedFileBlob: UploadApiResponse;
             let parsedFile: { content: any[], cover: string, title?: string };
 
             if (file.type === 'application/pdf') {
@@ -107,10 +111,13 @@ const UploadForm = () => {
                     cover: parsedPDF.cover,
                     title: file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ")
                 };
+                // Upload PDF for storage
+                uploadedFileBlob = await uploadViaApi(file, `${fileTitle}${file.name.substring(file.name.lastIndexOf('.'))}`, file.type);
             } else {
-                // Upload first, then extract content
+                // Upload first for extraction (this is our primary copy)
                 const uploadedBlob = await uploadViaApi(file, `${fileTitle}${file.name.substring(file.name.lastIndexOf('.'))}`, file.type, 'public');
-                
+                uploadedFileBlob = uploadedBlob; // Reuse this for node creation
+
                 // Show loading toast for AI extraction
                 const extractionToast = toast.loading("Synthesizing node signatures with AI...");
                 const { extractContentFromFile, generateNodeCover } = await import("@/lib/actions/ai.actions");
@@ -128,11 +135,12 @@ const UploadForm = () => {
                     cover: await generateNodeCover(extracted.data.visualTheme || 'minimal'),
                     title: extracted.data.title
                 };
+                console.log("[UploadForm] AI extraction successful", { title: parsedFile.title, segments: parsedFile.content.length });
             }
 
             setPdfPreview({
                 title: parsedFile.title || file.name,
-                content: parsedFile.content[0]?.text.substring(0, 300) + "...",
+                content: (parsedFile.content[0]?.text || "").substring(0, 300) + "...",
                 cover: parsedFile.cover
             });
 
@@ -140,8 +148,6 @@ const UploadForm = () => {
             if (!form.getValues('title')) {
                 form.setValue('title', parsedFile.title || file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " "));
             }
-
-            const uploadedPdfBlob = await uploadViaApi(file, `${fileTitle}${file.name.substring(file.name.lastIndexOf('.'))}`, file.type);
 
             let coverUrl: string;
 
@@ -165,11 +171,11 @@ const UploadForm = () => {
 
             const book = await createBook({
                 clerkId: userId,
-                title: form.getValues('title') || data.title,
+                title: form.getValues('title') || data.title || fileTitle,
                 author: user?.fullName || "Anonymous Researcher",
-                persona: "rachel", // Default to Rachel initially, user can change later in Hub
-                fileURL: uploadedPdfBlob.url,
-                fileBlobKey: uploadedPdfBlob.pathname,
+                persona: data.persona || "rachel", 
+                fileURL: uploadedFileBlob.url,
+                fileBlobKey: uploadedFileBlob.pathname,
                 coverURL: coverUrl,
                 fileSize: file.size,
             });
@@ -216,7 +222,13 @@ const UploadForm = () => {
 
             <div className="mx-auto max-w-4xl px-4 sm:px-6 mb-32">
                 <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+                    <form 
+                        onSubmit={form.handleSubmit(onSubmit, (errors) => {
+                            console.error("[UploadForm] Validation errors:", errors);
+                            toast.error("Please fill in all required fields correctly.");
+                        })} 
+                        className="space-y-10"
+                    >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             {/* 1. PDF File Upload */}
                             <div className="premium-card premium-card-hover p-2">

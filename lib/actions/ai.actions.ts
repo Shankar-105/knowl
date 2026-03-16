@@ -63,17 +63,22 @@ export const generateBookInsights = async (bookId: string) => {
         // Extraction with fallback and JSON cleaning
         let parsed: any;
         try {
-            const jsonMatch = response.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) throw new Error("No JSON found in AI response");
+            // Remove markdown code blocks if they exist
+            const cleanedResponse = response.replace(/```json/g, '').replace(/```/g, '').trim();
+            const jsonMatch = cleanedResponse.match(/\{[\s\S]*\}/);
             
-            // Clean common AI formatting issues
-            let jsonStr = jsonMatch[0].trim();
-            parsed = JSON.parse(jsonStr);
+            if (!jsonMatch) {
+                console.error("[ai.actions] No JSON structure in response:", response);
+                throw new Error("No JSON found in AI response");
+            }
+            
+            parsed = JSON.parse(jsonMatch[0]);
+            console.log("[ai.actions] Gemini response parsed successfully for insights");
         } catch (parseError) {
-            console.error("Failed to parse Gemini response:", response);
+            console.error("[ai.actions] Failed to parse Gemini response for insights:", response);
             return { 
                 success: false, 
-                error: "We've experienced a slight hiccup analyzing the book. We will work on this. Please try again." 
+                error: "We've experienced a slight hiccup analyzing the node. Please try again." 
             };
         }
 
@@ -136,10 +141,24 @@ export const extractContentFromFile = async (fileUrl: string, fileName: string, 
         ]);
 
         const aiResponse = result.response.text();
-        const jsonMatch = aiResponse.match(/\{[\s\S]*\}/);
-        if (!jsonMatch) throw new Error("No JSON found in AI response");
-        
-        const parsed = JSON.parse(jsonMatch[0].trim());
+        console.log("[ai.actions] Raw AI response from extractContentFromFile:", aiResponse);
+
+        let parsed: any;
+        try {
+            const cleanedResponse = aiResponse.replace(/```json/g, '').replace(/```/g, '').trim();
+            const jsonMatch = cleanedResponse.match(/\{[\s\S]*\}/);
+            
+            if (!jsonMatch) {
+                console.error("[ai.actions] No JSON found in extraction response:", aiResponse);
+                throw new Error("No JSON found in AI response");
+            }
+            
+            parsed = JSON.parse(jsonMatch[0]);
+            console.log("[ai.actions] Extraction content parsed successfully");
+        } catch (e: any) {
+            console.error("[ai.actions] Extraction parse error:", e.message, aiResponse);
+            throw new Error("Failed to parse extracted content. AI response was not in valid JSON format.");
+        }
 
         // Split into segments
         const { splitIntoSegments } = await import("@/lib/utils");

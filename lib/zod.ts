@@ -2,7 +2,7 @@ import { z } from 'zod';
 import {MAX_FILE_SIZE, ACCEPTED_FILE_TYPES, ACCEPTED_IMAGE_TYPES, MAX_IMAGE_SIZE} from './constants';
 
 export const UploadSchema = z.object({
-    title: z.string().min(1, "Title is required").max(100, "Title is too long"),
+    title: z.string().max(100, "Title is too long").optional(),
     persona: z.string().min(1, "Please select a voice"),
     pdfFile: z.instanceof(File, { message: "File is required" })
         .refine((file) => file.size <= MAX_FILE_SIZE, "File size must be less than 500MB")

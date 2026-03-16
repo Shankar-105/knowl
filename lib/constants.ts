@@ -148,7 +148,7 @@ export const VAPI_DASHBOARD_CONFIG = {
     // Turn-taking settings
     startSpeakingPlan: {
         smartEndpointingEnabled: true,
-        waitSeconds: 0.4,
+        waitSeconds: 0.1,
     },
     stopSpeakingPlan: {
         numWords: 2,
@@ -157,7 +157,7 @@ export const VAPI_DASHBOARD_CONFIG = {
     },
     // Timing settings
     silenceTimeoutSeconds: 30,
-    responseDelaySeconds: 0.4,
+    responseDelaySeconds: 0.2,
     llmRequestDelaySeconds: 0.1,
     // Conversation features
     backgroundDenoisingEnabled: true,

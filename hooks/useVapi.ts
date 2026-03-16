@@ -5,7 +5,7 @@ import Vapi from '@vapi-ai/web';
 import { useAuth } from '@clerk/nextjs';
 
 import { useSubscription } from '@/hooks/useSubscription';
-import { ASSISTANT_ID, DEFAULT_VOICE, voiceOptions } from '@/lib/constants';
+import { ASSISTANT_ID, DEFAULT_VOICE, voiceOptions, VOICE_SETTINGS, VAPI_DASHBOARD_CONFIG } from '@/lib/constants';
 import { getVoice } from '@/lib/utils';
 import { IBook, Messages } from '@/types';
 import { startVoiceSession, endVoiceSession } from '@/lib/actions/session.actions';
@@ -297,11 +297,9 @@ export function useVapi(book: IBook) {
           provider: '11labs',
           voiceId: activeVoiceId,
           model: 'eleven_turbo_v2_5',
-          stability: 0.45,
-          similarityBoost: 0.75,
-          style: 0,
-          useSpeakerBoost: true,
-        }
+          ...VOICE_SETTINGS,
+        },
+        ...VAPI_DASHBOARD_CONFIG,
       });
     } catch (e: any) {
       console.error('[useVapi] start error:', e?.message || e);
