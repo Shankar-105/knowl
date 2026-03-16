@@ -219,35 +219,59 @@ export function useVapi(book: IBook) {
       // Ensure we have a thread ID ready (may already exist from prior text chat)
       const tid = getOrCreateThreadId();
 
+      const vapi = getVapi();
+      if (!vapi) { setStatus('idle'); return; }
+
+      // Get language metadata for the selected voice
+      const currentVoiceKey = Object.keys(voiceOptions).find(k => (voiceOptions as any)[k].id === selectedVoiceId) || book.persona || DEFAULT_VOICE;
+      const voiceMeta = (voiceOptions as any)[currentVoiceKey] || (voiceOptions as any)[DEFAULT_VOICE];
+      const lang = voiceMeta.language || 'en';
+
       const prompts: any = {
-        "Default AI": `You are a knowledgeable AI assistant for the book "${book.title}" by ${book.author}. Help the user understand this book deeply.`,
-        "Author": `You are ${book.author}, the author of "${book.title}". Speak in first person.`,
-        "Summarizer": `You specialize in summarizing "${book.title}" by ${book.author}.`,
-        "Questioner": `You ask thought-provoking questions about "${book.title}" by ${book.author}.`,
-        "Character-1": `You are the main protagonist of "${book.title}".`
+        "Default AI": `You are a knowledgeable AI assistant for the node titled "${book.title}". Help the user understand this node deeply.`,
+        "Author": `You are the author of the node "${book.title}". Speak in first person.`,
+        "Summarizer": `You specialize in summarizing the node "${book.title}".`,
+        "Questioner": `You ask thought-provoking questions about the node "${book.title}".`,
       };
-      const sys = prompts[persona] || prompts["Default AI"];
+      let sys = prompts[persona] || prompts["Default AI"];
+
+      // Multilingual override
+      let firstMessage = threadCtx
+        ? "I remember what we were discussing. Let me continue."
+        : `Hi! I'd love to discuss the node "${book.title}" with you. What would you like to explore?`;
+
+      if (lang === 'hi') {
+        sys += "\nIMPORTANT: Please respond primarily in Hindi as the user has selected a Hindi voice.";
+        firstMessage = threadCtx 
+          ? "मुझे याद है कि हम क्या चर्चा कर रहे थे। चलिए जारी रखते हैं।" 
+          : `नमस्ते! मुझे आपके साथ "${book.title}" पर चर्चा करना अच्छा लगेगा। आप क्या जानना चाहेंगे?`;
+      } else if (lang === 'te') {
+        sys += "\nIMPORTANT: Please respond primarily in Telugu as the user has selected a Telugu voice.";
+        firstMessage = threadCtx 
+          ? "మనం ఏమి చర్చిస్తున్నామో నాకు గుర్తుంది. కొనసాగిద్దాం." 
+          : `నమస్కారం! మీతో "${book.title}" గురించి చర్చించడం నాకు చాలా ఇష్టం. మీరు ఏమి తెలుసుకోవాలనుకుంటున్నారు?`;
+      }
 
       // Include all messages for this thread as context
-      const threadCtx = messages
+      const threadCtxStr = messages
         .filter(m => m.sessionId === tid)
         .slice(-20)
         .map(m => `${m.role}: ${m.content}`)
         .join('\n');
 
-      const vapi = getVapi();
-      if (!vapi) { setStatus('idle'); return; }
-
       await vapi.start(ASSISTANT_ID, {
-        firstMessage: threadCtx
-          ? "I remember what we were discussing. Let me continue."
-          : `Hi! I'd love to discuss "${book.title}" with you. What would you like to explore?`,
+        firstMessage: firstMessage,
+        transcriber: {
+          provider: 'deepgram',
+          model: 'nova-2',
+          language: lang === 'en' ? 'en-US' : (lang === 'hi' ? 'hi' : 'te'),
+        },
         model: {
           provider: 'openai',
           model: 'gpt-4o',
           messages: [{
             role: 'system',
-            content: `${sys}\n\nCURRENT THREAD CONTEXT:\n${threadCtx || "(No prior messages in this thread)"}`
+            content: `${sys}\n\nCURRENT THREAD CONTEXT:\n${threadCtxStr || "(No prior messages in this thread)"}`
           }]
         },
         voice: {

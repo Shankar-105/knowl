@@ -71,13 +71,11 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                         </div>
 
                         <div className="p-5 space-y-4">
-                            <div>
-                                <h1 className="text-base font-serif font-black text-gray-900 dark:text-white tracking-tight line-clamp-2 leading-snug">
+                            <div className="flex-1 min-w-0">
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">Current Focus</p>
+                                <h4 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100 line-clamp-1 leading-tight">
                                     {book.title}
-                                </h1>
-                                <p className="text-xs text-indigo-600 dark:text-indigo-400 font-bold uppercase tracking-wide mt-1">
-                                    by {book.author}
-                                </p>
+                                </h4>
                             </div>
 
                             <div className="space-y-3 pt-3 border-t border-black/5 dark:border-white/10">
@@ -123,7 +121,7 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
 
                         {/* Chat Header */}
                         <div className="flex items-center justify-between px-4 py-3 border-b border-black/5 dark:border-white/10 shrink-0 bg-white dark:bg-[#0c0c0c]" suppressHydrationWarning>
-                            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest">
+                            <span className="text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest">
                                 {!selectedThreadId ? 'Current Chat' : 'Past Thread'}
                             </span>
                             <div className="flex items-center gap-2">
@@ -144,7 +142,7 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                                 {hasArchive && (
                                     <button
                                         onClick={() => setShowHistory(!showHistory)}
-                                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all"
+                                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all"
                                         suppressHydrationWarning
                                     >
                                         <History size={13} />
@@ -171,7 +169,7 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                         <div className="px-4 py-3 border-t border-black/5 dark:border-white/10 shrink-0 bg-white dark:bg-[#0c0c0c]">
                             {selectedThreadId ? (
                                 <div className="flex items-center justify-center gap-2 py-2">
-                                    <span className="text-xs text-gray-400 dark:text-gray-500">Viewing past thread — </span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-300">Viewing past thread — </span>
                                     <button
                                         onClick={() => startNewThread()}
                                         className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"

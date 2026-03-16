@@ -23,8 +23,8 @@ const monaSans = Mona_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Bookified",
-  description: "Transform your books into interactive AI conversations. Upload PDFs, and chat with your books using voice.",
+  title: "Knowl - Neural Knowledge Synthesis",
+  description: "Synthesize your research into interactive knowledge nodes. Engage with AI resonance and a community of deep thinkers.",
 };
 
 export default function RootLayout({

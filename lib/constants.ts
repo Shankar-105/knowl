@@ -87,7 +87,7 @@ export const sampleBooks = [
 ];
 
 // File validation helpers
-export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+export const MAX_FILE_SIZE = 500 * 1024 * 1024; // 500MB
 export const ACCEPTED_PDF_TYPES = ['application/pdf'];
 export const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
@@ -99,18 +99,18 @@ export const ASSISTANT_ID = process.env.NEXT_PUBLIC_ASSISTANT_ID || '';
 // Voices selected for natural, engaging book conversations
 export const voiceOptions = {
     // English Male
-    dave: { id: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', description: 'Young male, British-Essex, casual & conversational', category: 'Male' },
-    daniel: { id: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', description: 'Middle-aged male, British, authoritative but warm', category: 'Male' },
-    chris: { id: 'iP95p4xoKVk53GoZ742B', name: 'Chris', description: 'Male, casual & easy-going', category: 'Male' },
+    dave: { id: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', description: 'Young male, British-Essex, casual & conversational', category: 'Male', language: 'en' },
+    daniel: { id: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', description: 'Middle-aged male, British, authoritative but warm', category: 'Male', language: 'en' },
+    chris: { id: 'iP95p4xoKVk53GoZ742B', name: 'Chris', description: 'Male, casual & easy-going', category: 'Male', language: 'en' },
     
     // English Female
-    rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Young female, American, calm & clear', category: 'Female' },
-    sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Young female, American, soft & approachable', category: 'Female' },
+    rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Young female, American, calm & clear', category: 'Female', language: 'en' },
+    sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Young female, American, soft & approachable', category: 'Female', language: 'en' },
 
-    // Indian Regional (Hindi/Telugu placeholders - using high quality multilingual voices)
-    aditya: { id: 'ErXw9S0zXY7uIqcK7T7t', name: 'Aditya', description: 'Male, Hindi-accented English, warm & helpful', category: 'Regional' },
-    priya: { id: 'Lcf7uS03hy4OdGmsEtid', name: 'Priya', description: 'Female, Hindi-accented English, soft & scholarly', category: 'Regional' },
-    ravi: { id: 'Xb7h9S0zXY7uIqcK7T7t', name: 'Ravi', description: 'Male, Telugu-accented English, clear & engaging', category: 'Regional' },
+    // Indian Regional (Multilingual optimized)
+    aditya: { id: 'ErXw9S0zXY7uIqcK7T7t', name: 'Aditya', description: 'Male, Hindi speaker, warm & helpful', category: 'Regional', language: 'hi' },
+    priya: { id: 'Lcf7uS03hy4OdGmsEtid', name: 'Priya', description: 'Female, Hindi speaker, soft & scholarly', category: 'Regional', language: 'hi' },
+    ravi: { id: 'Xb7h9S0zXY7uIqcK7T7t', name: 'Ravi', description: 'Male, Telugu speaker, clear & engaging', category: 'Regional', language: 'te' },
 };
 
 // Voice categories for the selector UI

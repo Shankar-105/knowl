@@ -71,8 +71,8 @@ const BookCard = ({ _id, title, author, coverURL, slug, likes = [], commentsCoun
                     {/* Visibility Tag - Only in My Shelf/Private space */}
                     {visibility === 'private' && (
                         <div className="absolute top-4 left-4 z-10" style={{ transform: "translateZ(60px)" }}>
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white uppercase tracking-wider">
-                                <Lock size={12} className="text-amber-400" /> My Shelf
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white uppercase tracking-wider">
+                                <Lock size={12} className="text-amber-400" /> My Nodes
                             </div>
                         </div>
                     )}
@@ -80,7 +80,7 @@ const BookCard = ({ _id, title, author, coverURL, slug, likes = [], commentsCoun
                     {(visibility === 'public' && isShelf) && (
                         <div className="absolute top-4 left-4 z-10" style={{ transform: "translateZ(60px)" }}>
                             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white uppercase tracking-wider">
-                                <Globe size={12} className="text-emerald-400" /> Public Hub
+                                <Globe size={12} className="text-emerald-400" /> Knowl Hub
                             </div>
                         </div>
                     )}
@@ -94,7 +94,7 @@ const BookCard = ({ _id, title, author, coverURL, slug, likes = [], commentsCoun
                             <h3 className="line-clamp-2 text-xl font-serif font-black text-white leading-tight">
                                 {title}
                             </h3>
-                            <p className="text-xs font-bold text-gray-300 tracking-wide uppercase italic">
+                            <p className="text-xs font-bold text-gray-200 dark:text-gray-100 tracking-wide uppercase italic">
                                 by {author}
                             </p>
                         </div>
@@ -102,11 +102,11 @@ const BookCard = ({ _id, title, author, coverURL, slug, likes = [], commentsCoun
                         {/* Social Counts - Only for Public Books */}
                         {visibility === 'public' && (
                             <div className="flex items-center gap-4 pt-2 border-t border-white/10">
-                                <div className="flex items-center gap-1.5 text-white/70">
+                                <div className="flex items-center gap-1.5 text-white/90">
                                     <Heart size={14} className={likes.length > 0 ? "fill-red-500 text-red-500" : ""} />
                                     <span className="text-xs font-bold font-mono">{likes.length}</span>
                                 </div>
-                                <div className="flex items-center gap-1.5 text-white/70">
+                                <div className="flex items-center gap-1.5 text-white/90">
                                     <MessageSquare size={14} />
                                     <span className="text-xs font-bold font-mono">{commentsCount}</span>
                                 </div>

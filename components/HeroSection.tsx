@@ -9,15 +9,16 @@ const HeroSection = () => {
                 <div className="library-hero-content">
                     {/* Left Part */}
                     <div className="library-hero-text">
-                        <h1 className="library-hero-title text-4xl font-serif font-bold">The Knowledge Hub</h1>
-                        <p className="library-hero-description">
-                            The collective brain of avid readers. <br className="hidden md:block" />
-                            Research books with AI and share distilled insights with the world.
+                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-black tracking-tighter leading-[1.1] mb-8 bg-gradient-to-b from-gray-900 to-gray-500 dark:from-white dark:to-white/50 bg-clip-text text-transparent">
+                            Synthesize <br />
+                            <span className="text-indigo-600 dark:text-indigo-400 italic">Nodes</span> <br />
+                            of Knowledge
+                        </h1>
+                        <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-300 leading-relaxed font-medium mb-12">
+                            Knowl transforms your research documents into interactive, 
+                            social-ready knowledge nodes. Engage with AI resonance and 
+                            a community of deep thinkers.
                         </p>
-                        <Link href="/books/new" className="library-cta-primary mt-4 flex items-center justify-center">
-                            <span className="text-3xl font-light mb-1 mr-2">+</span>
-                            <span className="text-[#212a3b]">Add new book</span>
-                        </Link>
                     </div>
 
                     {/* Center Part - Desktop */}

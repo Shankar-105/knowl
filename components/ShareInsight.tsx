@@ -7,7 +7,7 @@ import { IBook } from "@/types";
 
 export default function ShareInsight({ book }: { book: IBook }) {
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
-    const shareText = `I'm exploring "${book.title}" by ${book.author} on Bookified! The AI-generated mind maps and flashcards are incredible. Check it out!`;
+    const shareText = `I'm synthesizing "${book.title}" on Knowl! Interacting with these AI knowledge nodes is incredible. Check it out!`;
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(`${shareText} ${shareUrl}`);

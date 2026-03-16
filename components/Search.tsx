@@ -29,19 +29,17 @@ const Search = () => {
     }, [query, pathname, router]);
 
     return (
-        <div className="library-search-wrapper">
-            <div className="pl-4">
-                <SearchIcon
-                    size={20}
-                    className="text-[var(--text-muted)]"
-                />
-            </div>
-            <Input
-                type="text"
-                placeholder="Search books by title or author"
-                className="library-search-input border-none shadow-none focus-visible:ring-0"
+        <div className="relative group">
+            <SearchIcon
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-300 group-hover:text-indigo-500 transition-colors"
+                size={18}
+            />
+            <input
+                type="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search nodes by title, author, or #hashtags..."
+                className="w-full h-14 pl-12 pr-6 bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-2xl text-base font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all"
             />
         </div>
     );

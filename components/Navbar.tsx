@@ -11,7 +11,7 @@ const navItems = [
     { label: "My Shelf", href: "/shelf", authRequired: true },
 ]
 
-import { Settings, Menu, X } from "lucide-react";
+import { Settings, Menu, X, Plus, Search } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 import SettingsSidebar from "./SettingsSidebar";
 import MobileMenu from "./MobileMenu";
@@ -25,11 +25,13 @@ const Navbar = () => {
     return (
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
             <div className="premium-glass dark:premium-glass-dark rounded-2xl px-6 py-3 flex justify-between items-center shadow-lg">
-                <Link href="/" className="flex gap-2 items-center group">
-                    <div className="relative size-10 flex items-center justify-center bg-white rounded-xl shadow-sm group-hover:rotate-12 transition-transform overflow-hidden">
-                        <Image src="/assets/logo.png" alt="Bookified" width={28} height={18} className="object-contain" />
+                <Link href="/" className="flex gap-2 items-center group text-decoration-none">
+                    <div className="size-9 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20 group-hover:scale-110 transition-transform">
+                        <span className="text-white font-black text-xl italic drop-shadow-sm">K</span>
                     </div>
-                    <span className="logo-text dark:text-white">Bookified</span>
+                    <span className="text-2xl font-black tracking-tight text-gray-900 dark:text-white group-hover:text-indigo-600 transition-colors">
+                        Knowl
+                    </span>
                 </Link>
 
                 <nav className="hidden lg:flex gap-8 items-center bg-black/5 dark:bg-white/5 px-6 py-2 rounded-full border border-black/5 dark:border-white/5">
@@ -52,8 +54,14 @@ const Navbar = () => {
                     })}
                     <SignedIn>
                         <div className="h-4 w-[1px] bg-gray-300 dark:bg-white/10 mx-1" />
-                        <Link href="/books/new" className="text-sm font-bold text-indigo-600 dark:text-indigo-400 hover:opacity-80 flex items-center gap-1 transition-all">
-                            <span className="text-xl">+</span> Add Knowledge
+                        <Link href="/nodes/new" className="flex items-center gap-3 group">
+                            <div className="p-3 bg-indigo-50 dark:bg-white/5 rounded-xl border border-indigo-100 dark:border-white/10 group-hover:bg-indigo-600 group-hover:border-indigo-600 transition-all duration-300">
+                                <Plus size={24} className="text-indigo-600 group-hover:text-white transition-colors" />
+                            </div>
+                            <div className="flex flex-col text-left">
+                                <span className="font-bold text-gray-900 dark:text-white text-base">Add New Node</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">Synthesize your PDF</span>
+                            </div>
                         </Link>
                     </SignedIn>
                 </nav>

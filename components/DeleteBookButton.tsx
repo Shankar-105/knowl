@@ -6,18 +6,18 @@ import { deleteBook } from '@/lib/actions/book.actions';
 import { toast } from 'sonner';
 import { ConfirmationModal } from './ConfirmationModal';
 
-export default function DeleteBookButton({ bookId }: { bookId: string }) {
+export default function DeleteNodeButton({ nodeId }: { nodeId: string }) {
     const [isDeleting, setIsDeleting] = useState(false);
     const [showModal, setShowModal] = useState(false);
 
     const onConfirmDelete = async () => {
         setIsDeleting(true);
         try {
-            const res = await deleteBook(bookId);
+            const res = await deleteBook(nodeId);
             if (res.success) {
-                toast.success('Book deleted successfully');
+                toast.success('Node deleted successfully');
             } else {
-                toast.error(res.error || 'Failed to delete book');
+                toast.error(res.error || 'Failed to delete node');
             }
         } catch (err) {
             toast.error('An unexpected error occurred');
@@ -45,8 +45,8 @@ export default function DeleteBookButton({ bookId }: { bookId: string }) {
                 isOpen={showModal}
                 onClose={() => setShowModal(false)}
                 onConfirm={onConfirmDelete}
-                title="Delete Book?"
-                message="This will permanently remove this book and all its AI-generated content. This action cannot be undone."
+                title="Delete Node?"
+                message="This will permanently remove this knowledge node and all its AI discourse. This action is irreversible."
                 confirmText={isDeleting ? "Deleting..." : "Delete Permanently"}
                 variant="danger"
             />

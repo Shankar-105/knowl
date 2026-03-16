@@ -13,8 +13,8 @@ const MobileMenu = ({ user, pathName }: { user: any, pathName: string }) => {
 
     const items = [
         { label: "Discovery Hub", href: "/", icon: Globe },
-        { label: "My Shelf", href: "/shelf", icon: Library, authRequired: true },
-        { label: "Add Knowledge", href: "/books/new", icon: PlusCircle, authRequired: true, highlight: true },
+        { label: "My Nodes", href: "/shelf", icon: Library, authRequired: true },
+        { label: "Add Node", href: "/nodes/new", icon: PlusCircle, authRequired: true, highlight: true },
     ];
 
     return (

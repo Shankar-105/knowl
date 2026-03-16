@@ -104,7 +104,7 @@ const UploadForm = () => {
 
             setPdfPreview({
                 title: pdfFile.name,
-                content: parsedPDF.content[0]?.substring(0, 300) + "...",
+                content: parsedPDF.content[0]?.text.substring(0, 300) + "...",
                 cover: parsedPDF.cover
             });
 
@@ -203,7 +203,7 @@ const UploadForm = () => {
                                 <FileUploader
                                     control={form.control}
                                     name="coverImage"
-                                    label="Cover Display (Optional)"
+                                    label="Node Cover (Optional)"
                                     acceptTypes={ACCEPTED_IMAGE_TYPES}
                                     icon={ImageIcon}
                                     placeholder="Upload cover art"
@@ -218,7 +218,7 @@ const UploadForm = () => {
                                 <div className="size-8 bg-indigo-600 rounded-lg flex items-center justify-center">
                                     <div className="size-2 bg-white rounded-full animate-pulse" />
                                 </div>
-                                Scribe Details
+                                Node Details
                             </h3>
                             <div className="grid grid-cols-1 gap-6">
                                 <FormField
@@ -226,16 +226,16 @@ const UploadForm = () => {
                                     name="title"
                                     render={({ field }) => (
                                         <FormItem className="col-span-1">
-                                            <FormLabel className="text-sm font-bold text-gray-500 uppercase tracking-widest ml-1">Work Title</FormLabel>
+                                            <FormLabel className="text-sm font-bold text-gray-500 dark:text-gray-300 uppercase tracking-widest ml-1">Node Title</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    className="h-14 bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500/50 transition-all font-medium text-lg"
+                                                    className="h-14 bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500/50 transition-all font-medium text-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
                                                     placeholder="e.g. Beyond Good and Evil"
                                                     {...field}
                                                     disabled={isSubmitting}
                                                 />
                                             </FormControl>
-                                            <FormMessage />
+                                            <FormMessage className="dark:text-red-400" />
                                         </FormItem>
                                     )}
                                 />
@@ -275,15 +275,15 @@ const UploadForm = () => {
                                             <div className="space-y-2">
                                                 <div className="flex items-center gap-2">
                                                     <Sparkles size={12} className="text-indigo-500" />
-                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500">Source Pulse</p>
+                                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-500">Neural Signature</p>
                                                 </div>
-                                                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed italic border-l-2 border-indigo-500/20 pl-4">
+                                                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed italic border-l-2 border-indigo-500/20 pl-4">
                                                     "{pdfPreview.content}"
                                                 </p>
                                             </div>
                                             <div className="flex flex-wrap gap-3">
-                                                {["OCR Verified", "Semantic Map", "Structure Linked"].map(tag => (
-                                                    <div key={tag} className="px-3 py-1 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/5 text-[10px] font-bold text-gray-500 flex items-center gap-2">
+                                                {["OCR Analyzed", "Semantic Map", "Structure Linked"].map(tag => (
+                                                    <div key={tag} className="px-3 py-1 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/5 text-[10px] font-bold text-gray-500 dark:text-gray-400 flex items-center gap-2">
                                                         <div className="size-1 bg-green-500 rounded-full" />
                                                         {tag}
                                                     </div>
@@ -303,7 +303,7 @@ const UploadForm = () => {
                                 className="group relative px-12 py-5 bg-indigo-600 text-white rounded-2xl font-black text-xl shadow-2xl shadow-indigo-500/40 hover:bg-indigo-700 transition-all transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:scale-100 overflow-hidden"
                             >
                                 <span className="relative z-10 flex items-center gap-3">
-                                    Synthesize Knowledge
+                                    Synthesize Node
                                     <div className="size-6 bg-white/20 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform">
                                         →
                                     </div>

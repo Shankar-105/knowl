@@ -158,7 +158,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                             className="relative w-full max-w-md bg-white dark:bg-[#111111] rounded-[2.5rem] p-10 shadow-2xl border border-gray-100 dark:border-white/10"
                         >
                             <h3 className="text-3xl font-serif font-black text-gray-900 dark:text-white mb-2 italic">Discovery Hub</h3>
-                            <p className="text-gray-500 text-sm mb-8 font-bold uppercase tracking-widest">Add hashtags to help others find this resource</p>
+                            <p className="text-gray-500 text-sm mb-8 font-bold uppercase tracking-widest">Add hashtags to help others find this node</p>
                             
                             <div className="space-y-6">
                                 <div className="flex gap-2">
@@ -341,7 +341,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                         className="flex items-center gap-2.5 px-6 py-3 rounded-2xl bg-white/5 dark:bg-white/5 text-indigo-600 dark:text-indigo-400 font-black text-[10px] uppercase tracking-widest border border-indigo-500/20 hover:bg-indigo-600 hover:text-white transition-all active:scale-95"
                                     >
                                         <Download size={14} />
-                                        Download Resource
+                                        Download Node
                                     </a>
                                 )}
                             </div>
@@ -355,6 +355,10 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                         exit={{ height: 0, opacity: 0 }}
                                         className="mb-8 overflow-hidden"
                                     >
+                                        {/* Subtitle */}
+                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300/80 mb-6 border-b border-black/5 dark:border-white/5 pb-4">
+                                Update the discovery tags for this knowledge node.
+                            </p>
                                         <div className="premium-card p-10 bg-white/50 dark:bg-white/[0.02] border-indigo-500/10">
                                             <div className="space-y-10">
                                                 {Object.entries(voiceCategories).map(([category, voices]) => (
@@ -612,9 +616,13 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                     <div className="size-14 bg-indigo-600/10 text-indigo-600 rounded-[1.5rem] flex items-center justify-center border border-indigo-500/20">
                                         <Users size={24} />
                                     </div>
-                                    <div className="text-left">
-                                        <h2 className="text-2xl font-serif font-black text-[#212a3b] dark:text-white tracking-tight italic">Community <span className="text-indigo-600">Pulse</span></h2>
-                                        <p className="text-gray-500 text-sm">Join the conversation about this knowledge resource</p>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <h2 className="text-xl md:text-2xl font-serif font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                                                Community <span className="text-indigo-600 dark:text-indigo-400 italic">Pulse</span>
+                                            </h2>
+                                        </div>
+                                        <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300 font-medium">Join the conversation about this knowledge node</p>
                                     </div>
                                 </div>
                             </div>
