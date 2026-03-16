@@ -10,16 +10,14 @@ interface TranscriptProps {
   messages: Messages[];
   currentMessage: string;
   currentUserMessage: string;
-  currentViewMessages: Messages[];
   isTextLoading?: boolean;
   isPastThread?: boolean;
 }
 
 const Transcript = ({
-  messages,
+  messages = [],
   currentMessage,
   currentUserMessage,
-  currentViewMessages,
   isTextLoading,
   isPastThread,
 }: TranscriptProps) => {
@@ -36,9 +34,9 @@ const Transcript = ({
   useEffect(() => {
     const timeout = setTimeout(scrollToBottom, 50);
     return () => clearTimeout(timeout);
-  }, [currentViewMessages, currentMessage, currentUserMessage, isTextLoading]);
+  }, [messages, currentMessage, currentUserMessage, isTextLoading]);
 
-  const isEmpty = currentViewMessages.length === 0 && !currentMessage && !currentUserMessage && !isTextLoading;
+  const isEmpty = (messages?.length ?? 0) === 0 && !currentMessage && !currentUserMessage && !isTextLoading;
 
   return (
     <div className="h-full flex flex-col relative overflow-hidden">
@@ -56,13 +54,13 @@ const Transcript = ({
             <h2 className="text-lg font-serif font-black text-[#212a3b] dark:text-white mb-2 tracking-tight">
               Describe what you need.
             </h2>
-            <p className="text-xs text-gray-400 dark:text-white/50 max-w-xs font-medium">
+            <p className="text-xs text-gray-400 dark:text-gray-300 max-w-xs font-medium">
               Type below to chat with the AI, or connect voice on the left.
             </p>
           </motion.div>
         ) : (
           <div className="space-y-3">
-            {currentViewMessages.map((message, index) => (
+            {(messages || []).map((message, index) => (
               <motion.div
                 key={`${message.sessionId ?? 'new'}-${index}`}
                 initial={{ opacity: 0, y: 6 }}
@@ -101,7 +99,7 @@ const Transcript = ({
             {/* Text AI thinking indicator */}
             {isTextLoading && (
               <div className="flex flex-col items-start">
-                <div className="bg-gray-100 dark:bg-white/10 px-4 py-3 rounded-2xl rounded-bl-sm text-sm flex items-center gap-2 text-gray-500 dark:text-gray-400">
+                <div className="bg-gray-100 dark:bg-white/10 px-4 py-3 rounded-2xl rounded-bl-sm text-sm flex items-center gap-2 text-gray-500 dark:text-gray-300">
                   <Loader2 size={14} className="animate-spin text-indigo-500" />
                   <span className="text-xs">Thinking...</span>
                 </div>

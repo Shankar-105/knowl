@@ -48,7 +48,7 @@ const FileUploader = <T extends FieldValues>({
 
     return (
         <FormItem className="w-full">
-            <FormLabel className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-widest ml-1 mb-3 block">{label}</FormLabel>
+            <FormLabel className="text-sm font-bold text-gray-500 dark:text-gray-100 uppercase tracking-widest ml-1 mb-3 block">{label}</FormLabel>
             <FormControl>
                 <div
                     className={cn(
@@ -88,7 +88,7 @@ const FileUploader = <T extends FieldValues>({
                                 <Icon className="text-indigo-600 dark:text-indigo-400 size-7" />
                             </div>
                             <p className="text-lg font-bold text-gray-900 dark:text-white">{placeholder}</p>
-                            <p className="text-sm text-gray-400 font-medium">{hint}</p>
+                            <p className="text-sm text-gray-400 dark:text-gray-300 font-medium">{hint}</p>
                             
                             {/* Decorative element */}
                             <div className="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">

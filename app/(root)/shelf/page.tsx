@@ -25,15 +25,15 @@ const ShelfPage = async ({ searchParams }: { searchParams: Promise<{ query?: str
     }
 
     return (
-        <main className="wrapper container">
-            <HeroSection />
-
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-10">
-                <div className="space-y-1">
-                    <h2 className="text-3xl font-serif font-bold text-[#212a3b] dark:text-white">My Personal Shelf</h2>
-                    <p className="text-gray-500 dark:text-gray-400">Your private AI research lab</p>
+        <main className="wrapper container pt-32">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-12 border-b border-black/5 dark:border-white/5 pb-8">
+                <div className="space-y-2">
+                    <h1 className="text-4xl md:text-5xl font-serif font-black text-[#212a3b] dark:text-white italic">My Personal Shelf</h1>
+                    <p className="text-gray-500 dark:text-gray-200 font-medium tracking-tight">Your private AI research lab & knowledge repository.</p>
                 </div>
-                <Search />
+                <div className="w-full sm:w-80">
+                    <Search />
+                </div>
             </div>
 
             {books.length > 0 ? (
@@ -59,7 +59,7 @@ const ShelfPage = async ({ searchParams }: { searchParams: Promise<{ query?: str
                         <span className="text-4xl text-gray-300">📚</span>
                     </div>
                     <h3 className="text-xl font-bold dark:text-white">No nodes yet</h3>
-                    <p className="text-gray-500 max-w-xs">Upload your first node or PDF to start your AI-powered research journey.</p>
+                    <p className="text-gray-500 dark:text-gray-300 max-w-xs">Upload your first node or PDF to start your AI-powered research journey.</p>
                 </div>
             )}
         </main>

@@ -12,56 +12,62 @@
     <img src="https://img.shields.io/badge/-Tailwind_4-06B6D4?style=for-the-badge&logo=Tailwind-CSS&logoColor=white" />
   </div>
 
-  <h3 align="center">Knowl | Your Social AI Research Companion</h3>
+  <h3 align="center">Knowl | Building the Future of Conversational Voice Agents</h3>
 </div>
 
 ## 📋 Table of Contents
 
-1. ✨ [Introduction](#introduction)
-2. 🌐 [Social Research Hub](#social-hub)
-3. ⚙️ [Tech Stack](#tech-stack)
-4. 🔋 [Features](#features)
-5. 🤸 [Get Started](#get-started)
+1. ✨ [The Vision](#the-vision)
+2. 🎙️ [Autonomous Voice Agents](#voice-agents)
+3. 🌐 [Social Discovery](#social-hub)
+4. ⚙️ [Powering the Future](#tech-stack)
+5. 🔋 [Features](#features)
+6. 🤸 [Get Started](#get-started)
 
-## <a name="introduction">✨ Introduction</a>
+## <a name="the-vision">✨ The Vision</a>
 
-**Knowl** is a cutting-edge AI platform designed to transform how we interact with information. It’s not just a PDF reader, Engage in real-time voice conversations, visualize complex connections with AI-generated maps, and share your distilled insights with a global community of researchers.
+**Knowl** is not just a PDF reader—it's the next step in building the future of **Voice Agents**. We believe research shouldn't be a solitary, silent activity. Knowl transforms static knowledge into interactive, conversational partners, allowing developers and researchers to talk to their data as if it were alive.
 
-## <a name="social-hub">🌐 Social Research Hub</a>
+## <a name="voice-agents">🎙️ Autonomous Voice Agents</a>
 
-Knowl bridges the gap between private study and community knowledge.
+At the heart of Knowl are context-aware Voice Agents. Powered by **Vapi** and **ElevenLabs**, these agents:
+- **Understand Deep Context**: They don't just read text; they grasp the specialized knowledge within your documents.
+- **Speak Naturally**: With high-fidelity, low-latency voices, interactions feel human.
+- **Code-Switching & Regional Support**: Our agents are being built to support multiple languages and regional dialects, making knowledge accessible globally.
 
-- **Discovery Hub**: Explore a curated feed of "nodes" published by other users. See what the community is researching and learn from their AI-distilled insights.
-- **Personal Shelf**: Your private sanctuary for deep dives. Upload your PDFs here, manage your research, and only publish to the Hub when you're ready to share.
-- **Community Interaction**: Engage with fellow researchers through likes and comments on published nodes. Follow the development of ideas as they evolve.
+## <a name="social-hub">🌐 Social Discovery Hub</a>
 
-## <a name="tech-stack">⚙️ Tech Stack</a>
+Knowl bridges the gap between private research and community intelligence. 
 
-- **[Next.js 16](https://nextjs.org/) & [React 19](https://react.dev/)**: For a blazingly fast, state-of-the-art web experience.
-- **[Vapi](https://vapi.ai/)**: Real-time, low-latency voice AI that makes conversations feel natural.
-- **[ElevenLabs](https://elevenlabs.io/)**: World-class AI voices to give your research a personality.
-- **[Google Gemini AI](https://aistudio.google.com/)**: Powerful embeddings and synthesis for intelligent content extraction.
-- **[Tailwind CSS 4](https://tailwindcss.com/)**: Modern styling for a premium glassmorphic UI.
-- **[Clerk](https://clerk.com/)**: Secure, frictionless authentication for your personal and social data.
+- **Publish to the World**: Turn a private PDF into a public, conversational Voice Agent node.
+- **Discovery Hub**: Explore a curated feed of knowledge nodes shared by the community. 
+- **Interactive Insights**: Engage with research through real-time maps and collective social interaction.
 
-## <a name="features">🔋 Features</a>
+## <a name="tech-stack">⚙️ Powering the Future</a>
 
-- 🎙️ **Voice-First Research**: Discuss complex topics with your books using natural language.
-- 🗺️ **Interactive Knowledge Maps**: Visualize the structure of your books with AI-generated mind maps.
-- 📤 **Node Publishing**: Turn your private research into public knowledge with a single click.
-- 💬 **Social Insights**: Like, comment, and discuss research nodes within the community.
-- 📝 **Live Transcripts**: Never lose a thought with real-time text logging of your voice sessions.
-- 🌓 **Premium Aesthetic**: A stunning, responsive design that works perfectly in light and dark modes.
+- **[Next.js 16](https://nextjs.org/) & [React 19](https://react.dev/)**: The bleeding edge of web performance.
+- **[Vapi](https://vapi.ai/)**: The ultimate platform for low-latency, conversational Voice AI.
+- **[ElevenLabs](https://elevenlabs.io/)**: The world's most realistic AI voices.
+- **[Google Gemini AI](https://aistudio.google.com/)**: Multi-modal analysis and high-dimensional embeddings.
+- **[Tailwind CSS 4](https://tailwindcss.com/)**: A futuristic design system for a premium interface.
+
+## <a name="features">🔋 Advanced Capabilities</a>
+
+- 🎙️ **Vocal Intelligence**: Real-time discussions with specialized knowledge nodes.
+- 🗺️ **Neural Mapping**: AI-generated visual structures of complex research topics.
+- 📤 **Instant Deployment**: Publish your personal research shelf to the global hub.
+- 📝 **Live Session History**: Every verbal insight captured with real-time transcripts.
+- 🌓 **Adaptive UI**: A premium, glassmorphic design that evolves with your environment.
 
 ## <a name="get-started">🤸 Get Started</a>
 
-Ready to build your knowledge empire? 
+Ready to build the future of voice-first research? 
 
-> [IMPORTANT] 
-> For detailed installation steps, environment variable configuration, and local development instructions, please refer to our dedicated setup guide:
+> [!IMPORTANT] 
+> For detailed installation steps, voice agent configuration, and local development instructions, please refer to our dedicated setup guide:
 >
 > ### 👉 [**Setup & Installation Guide**](setup.md)
 
 ---
 
-Developed with ❤️ for the future of live research with voice agents.
+Developed with ❤️ for the future of live research with voice agents.

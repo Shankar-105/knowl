@@ -63,7 +63,7 @@ const HistorySidebar = ({
                     <p className="text-[10px] text-gray-400">{threadArchive.length} threads</p>
                   </div>
                 </div>
-                <button onClick={onClose} className="size-8 rounded-xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 flex items-center justify-center text-gray-500 dark:text-gray-400 transition-all">
+                <button onClick={onClose} className="size-8 rounded-xl bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 flex items-center justify-center text-gray-500 dark:text-gray-300 transition-all">
                   <X size={16} />
                 </button>
               </div>
@@ -72,8 +72,8 @@ const HistorySidebar = ({
               <div className="flex-1 overflow-y-auto p-4 space-y-2 pb-24 bg-gray-50 dark:bg-[#0d0d0d]">
                 {threadArchive.length === 0 ? (
                   <div className="h-full flex flex-col items-center justify-center opacity-40 text-center px-8 py-20">
-                    <Clock size={36} className="mb-3 text-gray-400" />
-                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">No past threads yet</p>
+                    <Clock size={36} className="mb-3 text-gray-400 dark:text-gray-200" />
+                    <p className="text-xs font-bold text-gray-500 dark:text-gray-200 uppercase tracking-widest">No past threads yet</p>
                   </div>
                 ) : (
                   threadArchive.map((thread) => (
@@ -123,10 +123,10 @@ const HistorySidebar = ({
                       >
                         {/* Top Row: status dot + date */}
                         <div className="flex items-center justify-between">
-                          <span className={cn("text-[10px] font-bold uppercase tracking-wider", selectedThreadId === thread.threadId ? "text-white/60" : "text-gray-400 dark:text-gray-500")}>
+                          <span className={cn("text-[10px] font-bold uppercase tracking-wider", selectedThreadId === thread.threadId ? "text-white/60" : "text-gray-400 dark:text-gray-300")}>
                             Thread
                           </span>
-                          <span className={cn("text-[9px] font-medium", selectedThreadId === thread.threadId ? "text-white/50" : "text-gray-400 dark:text-gray-600")}>
+                          <span className={cn("text-[9px] font-medium", selectedThreadId === thread.threadId ? "text-white/50" : "text-gray-400 dark:text-gray-400")}>
                             {thread.timestamp?.toLocaleDateString([], { month: 'short', day: 'numeric' })}
                           </span>
                         </div>
@@ -166,7 +166,7 @@ const HistorySidebar = ({
                                 "p-1.5 rounded-lg transition-all",
                                 selectedThreadId === thread.threadId
                                   ? "bg-white/20 text-white hover:bg-white/30"
-                                  : "bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 border border-gray-200 dark:border-white/10"
+                                  : "bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 border border-gray-200 dark:border-white/10"
                               )}
                             >
                               <Pencil size={12} />
@@ -177,7 +177,7 @@ const HistorySidebar = ({
                                 "p-1.5 rounded-lg transition-all",
                                 selectedThreadId === thread.threadId
                                   ? "bg-white/20 text-white hover:bg-red-400"
-                                  : "bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-500 border border-gray-200 dark:border-white/10"
+                                  : "bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-500 border border-gray-200 dark:border-white/10"
                               )}
                             >
                               <Trash2 size={12} />

@@ -172,8 +172,9 @@ export default function AIFeatures({ book }: { book: IBook }) {
                             className="relative w-full max-w-md bg-white dark:bg-[#111111] rounded-[2.5rem] p-10 shadow-2xl border border-gray-100 dark:border-white/10"
                         >
                             <h3 className="text-3xl font-serif font-black text-gray-900 dark:text-white mb-2 italic">Discovery Hub</h3>
-                            <p className="text-gray-500 text-sm mb-8 font-bold uppercase tracking-widest">Add hashtags to help others find this node</p>
-                            
+                            <p className="text-xs text-gray-500 dark:text-gray-200 mt-2 mb-4">
+                                Add hashtags to help others discover this node in the Hub.
+                            </p>
                             <div className="space-y-6">
                                 <div className="flex gap-2">
                                     <input 
@@ -212,7 +213,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                 
                                 <button 
                                     onClick={() => setShowHashtagModal(false)}
-                                    className="w-full text-gray-400 font-bold text-[10px] uppercase tracking-widest hover:text-gray-600 dark:hover:text-white transition-colors"
+                                    className="w-full text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-white font-bold text-[10px] uppercase tracking-widest transition-colors"
                                 >
                                     Cancel
                                 </button>
@@ -335,7 +336,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                             "relative flex items-center gap-3 px-8 py-4 rounded-2xl font-black text-[11px] uppercase tracking-[0.15em] transition-all transform active:scale-95 whitespace-nowrap z-10",
                             activeTab === tab.id 
                                 ? "text-white" 
-                                : "text-gray-500 dark:text-gray-400 hover:text-indigo-600 dark:hover:text-white"
+                                : "text-gray-500 hover:text-indigo-600 dark:text-gray-100 dark:hover:text-white"
                         )}
                     >
                         {activeTab === tab.id && (
@@ -368,7 +369,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                         onClick={() => setShowVoiceMenu(!showVoiceMenu)}
                                         className={cn(
                                             "flex items-center gap-2.5 px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all active:scale-95 shadow-lg",
-                                            showVoiceMenu ? "bg-indigo-600 text-white shadow-indigo-500/30" : "bg-white dark:bg-white/5 text-gray-500 dark:text-gray-400 border border-black/5 dark:border-white/10 shadow-black/5"
+                                            showVoiceMenu ? "bg-indigo-600 text-white shadow-indigo-500/30" : "bg-white dark:bg-white/5 text-gray-500 dark:text-gray-100 border border-black/5 dark:border-white/10 shadow-black/5"
                                         )}
                                     >
                                         <Zap size={14} className={showVoiceMenu ? "fill-white" : ""} />
@@ -398,17 +399,13 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                         exit={{ height: 0, opacity: 0 }}
                                         className="mb-8 overflow-hidden"
                                     >
-                                        {/* Subtitle */}
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300/80 mb-6 border-b border-black/5 dark:border-white/5 pb-4">
-                                Update the discovery tags for this knowledge node.
-                            </p>
-                                        <div className="premium-card p-10 bg-white/50 dark:bg-white/[0.02] border-indigo-500/10">
+                                                    <div className="premium-card p-10 bg-white/50 dark:bg-white/[0.02] border-indigo-500/10">
                                             <div className="space-y-10">
                                                 {Object.entries(voiceCategories).map(([category, voices]) => (
                                                     <div key={category} className="space-y-4">
-                                                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 flex items-center gap-2">
+                                                        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 dark:text-gray-500 flex items-center gap-2">
                                                             <div className="h-0.5 w-6 bg-indigo-500/30" />
-                                                            {category} Resonance
+                                                            {category.charAt(0).toUpperCase() + category.slice(1)} Resonance
                                                         </h4>
                                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                                             {voices.map((vKey) => {
@@ -434,7 +431,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                                                             </span>
                                                                             {isSelected && <CheckCircle2 size={16} className="text-white" />}
                                                                         </div>
-                                                                        <p className={cn("text-[11px] font-medium leading-relaxed", isSelected ? "text-white/70" : "text-gray-500 dark:text-gray-400")}>
+                                                                        <p className={cn("text-[11px] font-medium leading-relaxed", isSelected ? "text-white/70" : "text-gray-500 dark:text-gray-200")}>
                                                                             {voice.description}
                                                                         </p>
                                                                         {!isSelected && (
@@ -465,7 +462,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                             initial={{ opacity: 0, rotateX: 10, y: 20 }}
                             animate={{ opacity: 1, rotateX: 0, y: 0 }}
                             exit={{ opacity: 0, rotateX: -10, y: -20 }}
-                            className="premium-card p-12 md:p-20 border-white/50 dark:border-white/5 shadow-2xl bg-white/80 dark:bg-black/40 backdrop-blur-xl"
+                            className="premium-card p-12 md:p-20 border-white/50 dark:border-white/10 shadow-2xl bg-white/80 dark:bg-black/60 backdrop-blur-xl"
                         >
                             <div className="max-w-3xl mx-auto">
                                 <div className="flex items-center gap-6 mb-16">
@@ -515,12 +512,12 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                     <div className="flex flex-col items-center md:items-end gap-3">
                                         <div className="flex items-center gap-6 mb-2">
                                             <div className="flex flex-col items-center">
-                                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Score</span>
+                                                <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-400">Score</span>
                                                 <span className="text-2xl font-black text-indigo-600 dark:text-indigo-400">{score}</span>
                                             </div>
                                             {isChallengeMode && (
                                                 <div className="flex flex-col items-center">
-                                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-1">Time</span>
+                                                    <span className="text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-gray-400">Time</span>
                                                     <span className={cn("text-2xl font-black", timeLeft < 10 ? "text-red-500 animate-pulse" : "text-gray-900 dark:text-white")}>{timeLeft}s</span>
                                                 </div>
                                             )}
@@ -561,7 +558,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                         <Trophy size={48} />
                                     </div>
                                     <h3 className="text-4xl font-serif font-black text-gray-900 dark:text-white mb-4 italic">Neural Sync Complete</h3>
-                                    <p className="text-gray-500 mb-10 text-lg uppercase font-black tracking-widest">Efficiency: {Math.round((score / flashcards.length) * 100)}%</p>
+                                    <p className="text-gray-500 dark:text-gray-200 mb-10 text-lg uppercase font-black tracking-widest">Efficiency: {Math.round((score / flashcards.length) * 100)}%</p>
                                     <button 
                                         onClick={() => {
                                             setChallengeEnded(false);
@@ -587,7 +584,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                             <p className="text-2xl md:text-3xl font-serif font-black text-gray-900 dark:text-white leading-tight italic">
                                                 {flashcards[currentFlashcard].question}
                                             </p>
-                                            <div className="absolute bottom-10 flex items-center gap-3 text-gray-400">
+                                            <div className="absolute bottom-10 flex items-center gap-3 text-gray-400 dark:text-gray-400">
                                                 <RefreshCcw size={14} className="animate-spin-slow" />
                                                 <span className="text-[10px] font-black uppercase tracking-widest">Tap to reveal answer</span>
                                             </div>

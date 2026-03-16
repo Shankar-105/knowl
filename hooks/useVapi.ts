@@ -22,7 +22,6 @@ if (typeof window !== 'undefined') {
   const _origError = console.error.bind(console);
   if (!(console as any).__vapi_patched) {
     (console as any).__vapi_patched = true;
-    (console as any).__vapi_patched = true;
     console.error = (...args: any[]) => {
       const msg = args.map(a => String(a)).join(' ');
       if (SUPPRESSED_ERRORS.some(s => msg.includes(s))) return;
@@ -58,9 +57,6 @@ export function useVapi(book: IBook) {
   const [limitError, setLimitError] = useState<string | null>(null);
   const [isBillingError, setIsBillingError] = useState(false);
   const [persona, setPersona] = useState("Default AI");
-  const [selectedVoiceId, setSelectedVoiceId] = useState<string>(
-    getVoice(book.persona || DEFAULT_VOICE).id
-  );
   const [selectedVoiceId, setSelectedVoiceId] = useState<string>(
     getVoice(book.persona || DEFAULT_VOICE).id
   );
@@ -112,7 +108,6 @@ export function useVapi(book: IBook) {
   const currentViewMessages = useMemo(() => {
     if (selectedThreadId === null) {
       const tid = currentThreadIdRef.current;
-      if (!tid) return [];
       if (!tid) return [];
       return messages.filter(m => m.sessionId === tid);
     }
@@ -231,24 +226,7 @@ export function useVapi(book: IBook) {
       }
 
       // --- Resolve voice metadata ---
-      // selectedVoiceId is the 11labs voice ID (e.g. "21m00Tcm4TlvDq8ikWAM")
-      // We need to find the matching voiceOptions entry to get language
-      const voiceMeta = Object.values(voiceOptions).find(v => v.id === selectedVoiceId)
-        || Object.values(voiceOptions).find(v => v.id === getVoice(book.persona || DEFAULT_VOICE).id)
-        || voiceOptions.rachel;
-
-      const lang = voiceMeta.language || 'en';
-      const activeVoiceId = voiceMeta.id;
-      const vapi = getVapi();
-      if (!vapi) { 
-        setStatus('idle'); 
-        toast.error("Voice service unavailable. Check your API key.");
-        return; 
-      }
-
-      // --- Resolve voice metadata ---
-      // selectedVoiceId is the 11labs voice ID (e.g. "21m00Tcm4TlvDq8ikWAM")
-      // We need to find the matching voiceOptions entry to get language
+      // selectedVoiceId is the 11labs voice ID
       const voiceMeta = Object.values(voiceOptions).find(v => v.id === selectedVoiceId)
         || Object.values(voiceOptions).find(v => v.id === getVoice(book.persona || DEFAULT_VOICE).id)
         || voiceOptions.rachel;
@@ -256,8 +234,6 @@ export function useVapi(book: IBook) {
       const lang = voiceMeta.language || 'en';
       const activeVoiceId = voiceMeta.id;
 
-      // Build context from current thread messages (last 20)
-      const threadCtxStr = messages
       // Build context from current thread messages (last 20)
       const threadCtxStr = messages
         .filter(m => m.sessionId === tid)
@@ -282,67 +258,14 @@ export function useVapi(book: IBook) {
         ? "I remember our conversation. Let me continue from where we left off."
         : `Hi! I'd love to discuss "${book.title}" with you. What would you like to explore?`;
 
-      if (lang === 'hi') {
-        sys += "\n\nIMPORTANT: You MUST respond primarily in Hindi. The user has selected a Hindi voice.";
-        firstMessage = hasContext
-          ? "मुझे याद है कि हम क्या चर्चा कर रहे थे। चलिए जारी रखते हैं।"
-          : `नमस्ते! मुझे आपके साथ "${book.title}" पर चर्चा करना अच्छा लगेगा। आप क्या जानना चाहेंगे?`;
-      } else if (lang === 'te') {
-        sys += "\n\nIMPORTANT: You MUST respond primarily in Telugu. The user has selected a Telugu voice.";
-        firstMessage = hasContext
-          ? "మనం ఏమి చర్చిస్తున్నామో నాకు గుర్తుంది. కొనసాగిద్దాం."
-          : `నమస్కారం! మీతో "${book.title}" గురించి చర్చించడం నాకు చాలా ఇష్టం. మీరు ఏమి తెలుసుకోవాలనుకుంటున్నారు?`;
-      }
-
       if (hasContext) {
         sys += `\n\nCURRENT THREAD CONTEXT:\n${threadCtxStr}`;
       }
-
-      // --- Determine Deepgram language code ---
-      const deepgramLang = lang === 'hi' ? 'hi' : lang === 'te' ? 'te' : 'en-US';
-      const hasContext = !!threadCtxStr;
-
-      // --- Build system prompt ---
-      const sysPrompts: Record<string, string> = {
-        "Default AI": `You are a knowledgeable AI assistant for the node titled "${book.title}". Help the user understand this node deeply. Keep responses concise and conversational.`,
-        "Author": `You are the author of the node "${book.title}". Speak in first person with authority and passion.`,
-        "Summarizer": `You specialize in summarizing the node "${book.title}". Be clear, concise, and structured.`,
-        "Questioner": `You ask thought-provoking questions about the node "${book.title}" to help the user think critically.`,
-      };
-
-      let sys = sysPrompts[persona] || sysPrompts["Default AI"];
-
-      // --- Build first message & language override ---
-      let firstMessage = hasContext
-        ? "I remember our conversation. Let me continue from where we left off."
-        : `Hi! I'd love to discuss "${book.title}" with you. What would you like to explore?`;
-
-      if (lang === 'hi') {
-        sys += "\n\nIMPORTANT: You MUST respond primarily in Hindi. The user has selected a Hindi voice.";
-        firstMessage = hasContext
-          ? "मुझे याद है कि हम क्या चर्चा कर रहे थे। चलिए जारी रखते हैं।"
-          : `नमस्ते! मुझे आपके साथ "${book.title}" पर चर्चा करना अच्छा लगेगा। आप क्या जानना चाहेंगे?`;
-      } else if (lang === 'te') {
-        sys += "\n\nIMPORTANT: You MUST respond primarily in Telugu. The user has selected a Telugu voice.";
-        firstMessage = hasContext
-          ? "మనం ఏమి చర్చిస్తున్నామో నాకు గుర్తుంది. కొనసాగిద్దాం."
-          : `నమస్కారం! మీతో "${book.title}" గురించి చర్చించడం నాకు చాలా ఇష్టం. మీరు ఏమి తెలుసుకోవాలనుకుంటున్నారు?`;
-      }
-
-      if (hasContext) {
-        sys += `\n\nCURRENT THREAD CONTEXT:\n${threadCtxStr}`;
-      }
-
-      // --- Determine Deepgram language code ---
-      const deepgramLang = lang === 'hi' ? 'hi' : lang === 'te' ? 'te' : 'en-US';
+      
+      const deepgramLang = 'en-US';
+      const voiceModel = 'eleven_turbo_v2_5';
 
       await vapi.start(ASSISTANT_ID, {
-        firstMessage,
-        transcriber: {
-          provider: 'deepgram',
-          model: 'nova-2',
-          language: deepgramLang,
-        },
         firstMessage,
         transcriber: {
           provider: 'deepgram',
@@ -352,29 +275,24 @@ export function useVapi(book: IBook) {
         model: {
           provider: 'openai',
           model: 'gpt-4o-mini',
-          model: 'gpt-4o-mini',
           messages: [{
             role: 'system',
-            content: sys,
             content: sys,
           }]
         },
         voice: {
           provider: '11labs',
           voiceId: activeVoiceId,
-          voiceId: activeVoiceId,
-          model: 'eleven_turbo_v2_5',
+          model: voiceModel,
           ...VOICE_SETTINGS,
         },
         ...VAPI_DASHBOARD_CONFIG,
       });
     } catch (e: any) {
       console.error('[useVapi] start error:', e?.message || e);
-      console.error('[useVapi] start error:', e?.message || e);
       setStatus('idle');
       toast.error("Failed to start voice. Please try again.");
     }
-  }, [userId, book._id, book.title, book.persona, persona, messages, selectedVoiceId, getOrCreateThreadId]);
   }, [userId, book._id, book.title, book.persona, persona, messages, selectedVoiceId, getOrCreateThreadId]);
 
   // Instant stop
@@ -414,12 +332,10 @@ export function useVapi(book: IBook) {
       }
     } catch (e: any) {
       console.error('sendText error:', e?.message);
-      console.error('sendText error:', e?.message);
     }
   }, [status, book._id, getOrCreateThreadId]);
 
   const startNewThread = useCallback(() => {
-    currentThreadIdRef.current = null;
     currentThreadIdRef.current = null;
     setSelectedThreadId(null);
     setCurrentMessage('');

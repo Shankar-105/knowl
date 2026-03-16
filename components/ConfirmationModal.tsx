@@ -69,13 +69,13 @@ export function ConfirmationModal({
               </div>
               
               <h3 className="text-2xl font-serif font-black text-gray-900 dark:text-white mb-3 tracking-tight">{title}</h3>
-              <p className="text-gray-500 dark:text-gray-400 leading-relaxed font-medium">{message}</p>
+              <p className="text-gray-500 dark:text-gray-200 leading-relaxed font-medium">{message}</p>
             </div>
             
             <div className="p-8 bg-gray-50/50 dark:bg-white/[0.02] flex gap-4 border-t border-black/5 dark:border-white/5">
               <button
                 onClick={onClose}
-                className="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-white/10 transition-all active:scale-[0.98]"
+                className="flex-1 py-4 px-6 rounded-2xl font-bold text-gray-500 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-white/10 transition-all active:scale-[0.98]"
               >
                 {cancelText}
               </button>

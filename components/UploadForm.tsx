@@ -86,18 +86,9 @@ const UploadForm = () => {
         // PostHog -> Track Book Uploads...
 
         try {
-            const existsCheck = await checkBookExists(data.title);
-
-            if(existsCheck.exists && existsCheck.book) {
-                toast.info("Node with same title already exists.");
-                form.reset()
-                router.push(`/nodes/${existsCheck.book.slug}`)
-                return;
-            }
-
-            const fileTitle = data.title.replace(/\s+/g, '-').toLowerCase();
             const pdfFile = data.pdfFile;
-
+            
+            // 1. Parse PDF for Content & Auto-Title
             const parsedPDF = await parsePDFFile(pdfFile);
 
             if(parsedPDF.content.length === 0) {
@@ -105,48 +96,54 @@ const UploadForm = () => {
                 return;
             }
 
+            // 2. Resolve Title
+            const resolvedTitle = data.title?.trim() || pdfFile.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
+            
+            // 3. Duplicate Check
+            const existsCheck = await checkBookExists(resolvedTitle);
+            if(existsCheck.exists && existsCheck.book) {
+                toast.info("Node with same title already exists.");
+                form.reset();
+                router.push(`/nodes/${existsCheck.book.slug}`);
+                return;
+            }
+
             setPdfPreview({
-                title: pdfFile.name,
-                content: parsedPDF.content[0]?.substring(0, 300) + "...",
+                title: resolvedTitle,
+                content: parsedPDF.content[0]?.text.substring(0, 300) + "...",
                 cover: parsedPDF.cover
             });
 
-            // Auto-fill title if empty
-            if (!form.getValues('title')) {
-                form.setValue('title', parsedFile.title || file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " "));
-            }
+            // 4. File Upload
+            const fileTitleForPath = resolvedTitle.replace(/\s+/g, '-').toLowerCase();
+            const uploadedPdfBlob = await uploadViaApi(pdfFile, `${fileTitleForPath}.pdf`, 'application/pdf');
 
-            const uploadedPdfBlob = await uploadViaApi(pdfFile, `${fileTitle}.pdf`, 'application/pdf');
-
+            // 5. Cover Resolution
             let coverUrl: string;
-
             if(data.coverImage) {
                 const coverFile = data.coverImage;
-                const uploadedCoverBlob = await uploadViaApi(coverFile, `${fileTitle}_cover.png`, coverFile.type, 'public');
+                const uploadedCoverBlob = await uploadViaApi(coverFile, `${fileTitleForPath}_cover.png`, coverFile.type, 'public');
                 coverUrl = uploadedCoverBlob.url;
-            } else if (parsedFile.cover && parsedFile.cover.startsWith('data:')) {
-                const response = await fetch(parsedFile.cover)
+            } else if (parsedPDF.cover && parsedPDF.cover.startsWith('data:')) {
+                const response = await fetch(parsedPDF.cover);
                 const blob = await response.blob();
-
-                const uploadedCoverBlob = await uploadViaApi(blob, `${fileTitle}_cover.png`, 'image/png', 'public');
+                const uploadedCoverBlob = await uploadViaApi(blob, `${fileTitleForPath}_cover.png`, 'image/png', 'public');
                 coverUrl = uploadedCoverBlob.url;
-            } else if (parsedFile.cover && parsedFile.cover.startsWith('http')) {
-                // If it's a URL (like from Unsplash), use it directly
-                coverUrl = parsedFile.cover;
             } else {
-                 // Final fallback
-                 coverUrl = 'https://utfs.io/f/5e0e64c1-4b1e-4b0b-8d6d-2e1f488f5f3e-1z.png'; 
+                // Final fallback
+                coverUrl = 'https://utfs.io/f/5e0e64c1-4b1e-4b0b-8d6d-2e1f488f5f3e-1z.png'; 
             }
 
+            // 6. Database Creation
             const book = await createBook({
                 clerkId: userId,
-                title: data.title,
+                title: resolvedTitle,
                 author: user?.fullName || "Anonymous Researcher",
                 persona: data.persona || "rachel", 
-                fileURL: uploadedFileBlob.url,
-                fileBlobKey: uploadedFileBlob.pathname,
+                fileURL: uploadedPdfBlob.url,
+                fileBlobKey: uploadedPdfBlob.pathname,
                 coverURL: coverUrl,
-                fileSize: file.size,
+                fileSize: pdfFile.size,
             });
 
             if(!book.success) {
@@ -157,14 +154,15 @@ const UploadForm = () => {
                 return;
             }
 
-            if(book.alreadyExists) {
+            if(book.alreadyExists && book.data) {
                 toast.info("Node with same title already exists.");
-                form.reset()
-                router.push(`/nodes/${book.data.slug}`)
+                form.reset();
+                router.push(`/nodes/${book.data.slug}`);
                 return;
             }
 
-            const segments = await saveBookSegments(book.data._id, userId, parsedFile.content);
+            // 7. Segment Storage
+            const segments = await saveBookSegments(book.data!._id, userId, parsedPDF.content);
 
             if(!segments.success) {
                 toast.error("Failed to save node segments");
@@ -175,7 +173,6 @@ const UploadForm = () => {
             router.push('/');
         } catch (error) {
             console.error(error);
-
             const message = error instanceof Error ? error.message : 'Failed to upload node. Please try again later.';
             toast.error(message);
         } finally {
@@ -241,7 +238,7 @@ const UploadForm = () => {
                                     name="title"
                                     render={({ field }) => (
                                         <FormItem className="col-span-1">
-                                            <FormLabel className="text-sm font-bold text-gray-500 dark:text-gray-300 uppercase tracking-widest ml-1">Node Title</FormLabel>
+                                            <FormLabel className="text-sm font-bold text-gray-500 dark:text-gray-100 uppercase tracking-widest ml-1">Node Title</FormLabel>
                                             <FormControl>
                                                 <Input
                                                     className="h-14 bg-gray-50 dark:bg-black/40 border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-indigo-500/50 transition-all font-medium text-lg text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500"
@@ -298,7 +295,7 @@ const UploadForm = () => {
                                             </div>
                                             <div className="flex flex-wrap gap-3">
                                                 {["AI Analyzed", "Semantic Map", "Structure Linked"].map(tag => (
-                                                    <div key={tag} className="px-3 py-1 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/5 text-[10px] font-bold text-gray-500 dark:text-gray-400 flex items-center gap-2">
+                                                    <div key={tag} className="px-3 py-1 bg-white dark:bg-white/5 rounded-full border border-black/5 dark:border-white/5 text-[10px] font-bold text-gray-500 dark:text-gray-200 flex items-center gap-2">
                                                         <div className="size-1 bg-green-500 rounded-full" />
                                                         {tag}
                                                     </div>

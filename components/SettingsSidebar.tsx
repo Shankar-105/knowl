@@ -47,7 +47,7 @@ const SettingsSidebar = ({ show, onClose }: SettingsSidebarProps) => {
                 </div>
                 <button
                   onClick={onClose}
-                  className="size-8 rounded-lg bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 flex items-center justify-center text-gray-500 dark:text-gray-400 transition-all"
+                  className="size-8 rounded-lg bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 flex items-center justify-center text-gray-500 dark:text-gray-200 transition-all"
                 >
                   <X size={16} />
                 </button>
@@ -71,7 +71,7 @@ const SettingsSidebar = ({ show, onClose }: SettingsSidebarProps) => {
                     <p className="text-sm font-bold text-gray-900 dark:text-white truncate">
                       {user?.fullName || 'User'}
                     </p>
-                    <p className="text-[11px] text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1 truncate">
+                    <p className="text-[11px] text-gray-500 dark:text-gray-100 flex items-center gap-1 mt-1 truncate">
                       <Mail size={10} />
                       {user?.primaryEmailAddress?.emailAddress || '—'}
                     </p>

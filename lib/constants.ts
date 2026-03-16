@@ -115,18 +115,12 @@ export const voiceOptions = {
     // English Female
     rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Young female, American, calm & clear', category: 'Female', language: 'en' },
     sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Young female, American, soft & approachable', category: 'Female', language: 'en' },
-
-    // Indian Regional (Multilingual optimized)
-    aditya: { id: 'ErXw9S0zXY7uIqcK7T7t', name: 'Aditya', description: 'Male, Hindi speaker, warm & helpful', category: 'Regional', language: 'hi' },
-    priya: { id: 'Lcf7uS03hy4OdGmsEtid', name: 'Priya', description: 'Female, Hindi speaker, soft & scholarly', category: 'Regional', language: 'hi' },
-    ravi: { id: 'Xb7h9S0zXY7uIqcK7T7t', name: 'Ravi', description: 'Male, Telugu speaker, clear & engaging', category: 'Regional', language: 'te' },
 };
 
 // Voice categories for the selector UI
 export const voiceCategories = {
     male: ['dave', 'daniel', 'chris'],
     female: ['rachel', 'sarah'],
-    regional: ['aditya', 'priya', 'ravi'],
 };
 
 // Default voice

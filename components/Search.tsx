@@ -39,7 +39,7 @@ const Search = () => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search nodes by title, author, or #hashtags..."
-                className="w-full h-14 pl-12 pr-6 bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-2xl text-base font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 transition-all"
+                className="w-full h-14 pl-12 pr-6 bg-white/50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-2xl text-base font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-300 transition-all"
             />
         </div>
     );

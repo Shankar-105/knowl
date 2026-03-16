@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Settings, Plus } from "lucide-react";
@@ -11,7 +11,7 @@ import SettingsSidebar from "./SettingsSidebar";
 import MobileMenu from "./MobileMenu";
 
 const navItems = [
-    { label: "Discovery Hub", href: "/" },
+    { label: "Discovery Hub", href: "/discover" },
     { label: "My Nodes", href: "/shelf", authRequired: true },
 ];
 
@@ -19,6 +19,19 @@ const Navbar = () => {
     const pathName = usePathname();
     const { user, isLoaded } = useUser();
     const [showSettings, setShowSettings] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return (
+            <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl opacity-0">
+                <div className="premium-glass dark:premium-glass-dark rounded-2xl px-6 py-10" />
+            </header>
+        );
+    }
 
     return (
         <header className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl">
@@ -75,7 +88,7 @@ const Navbar = () => {
                             </div>
                             <div className="flex flex-col text-left">
                                 <span className="font-bold text-gray-900 dark:text-white text-base">Add New Node</span>
-                                <span className="text-xs text-gray-500 dark:text-gray-400">Synthesize your PDF</span>
+                                <span className="text-xs text-gray-500 dark:text-gray-200 italic">Synthesize your PDF</span>
                             </div>
                         </Link>
                     </SignedIn>
@@ -116,7 +129,7 @@ const Navbar = () => {
                                 )}
                                 <span className={cn(
                                     "text-sm font-bold transition-colors",
-                                    pathName === '/profile' ? "text-indigo-600 dark:text-indigo-400" : "text-gray-700 dark:text-gray-200"
+                                    pathName === '/profile' ? "text-indigo-600 dark:text-indigo-400" : "text-gray-700 dark:text-gray-100"
                                 )}>
                                     {user?.firstName}
                                 </span>

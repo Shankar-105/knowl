@@ -146,38 +146,37 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
 }
 
 .dark {
-  --background: #0c0c0c;
-  --foreground: #e5e7eb;
-  --card: #141414;
-  --card-foreground: #e5e7eb;
-  --popover: #141414;
-  --popover-foreground: #e5e7eb;
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
   --primary: #ffffff;
   --primary-foreground: #000000;
-  --secondary: #1f2937;
-  --secondary-foreground: #e5e7eb;
-  --muted: #1f2937;
-  --muted-foreground: #9ca3af;
-  --accent: #1f2937;
+  --secondary: #111111;
+  --secondary-foreground: #ffffff;
+  --muted: #111111;
+  --muted-foreground: #a1a1aa;
+  --accent: #111111;
   --accent-foreground: #ffffff;
   --destructive: oklch(0.637 0.237 25.331);
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
   --ring: #6366f1;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: #141414;
-  --sidebar-foreground: #e5e7eb;
+  --sidebar: #0a0a0a;
+  --sidebar-foreground: #ffffff;
   --sidebar-primary: #6366f1;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #1f2937;
-  --sidebar-accent-foreground: #e5e7eb;
-  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-accent: #111111;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: #6366f1;
-
   --blue: #818cf8;
 }
 
@@ -804,19 +803,28 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
     width: 100%;
     height: 100%;
     z-index: -10;
-    background-color: var(--bg-primary);
+    background-color: var(--background);
     background-image: 
-      radial-gradient(at 0% 0%, hsla(20, 60%, 80%, 0.5) 0, transparent 50%), 
-      radial-gradient(at 50% 0%, hsla(210, 40%, 90%, 0.5) 0, transparent 50%), 
-      radial-gradient(at 100% 0%, hsla(30, 50%, 85%, 0.5) 0, transparent 50%),
-      radial-gradient(at 0% 50%, hsla(220, 30%, 95%, 0.5) 0, transparent 50%),
-      radial-gradient(at 100% 50%, hsla(10, 40%, 90%, 0.5) 0, transparent 50%),
-      radial-gradient(at 0% 100%, hsla(40, 50%, 80%, 0.5) 0, transparent 50%),
-      radial-gradient(at 50% 100%, hsla(200, 30%, 90%, 0.5) 0, transparent 50%),
-      radial-gradient(at 100% 100%, hsla(20, 60%, 85%, 0.5) 0, transparent 50%);
+      radial-gradient(at 0% 0%, hsla(20, 60%, 80%, 0.15) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(210, 40%, 90%, 0.15) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(30, 50%, 85%, 0.15) 0, transparent 50%),
+      radial-gradient(at 0% 50%, hsla(220, 30%, 95%, 0.1) 0, transparent 50%),
+      radial-gradient(at 100% 50%, hsla(10, 40%, 90%, 0.1) 0, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(40, 50%, 80%, 0.15) 0, transparent 50%),
+      radial-gradient(at 50% 100%, hsla(200, 30%, 90%, 0.15) 0, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(20, 60%, 85%, 0.15) 0, transparent 50%);
     filter: blur(80px);
     opacity: 0.6;
     animation: mesh-float 20s ease-in-out infinite alternate;
+  }
+
+  .dark .mesh-gradient-bg {
+    background-color: #000000;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(240, 60%, 20%, 0.2) 0, transparent 50%), 
+      radial-gradient(at 50% 0%, hsla(270, 40%, 15%, 0.2) 0, transparent 50%), 
+      radial-gradient(at 100% 0%, hsla(290, 50%, 20%, 0.2) 0, transparent 50%);
+    opacity: 0.4;
   }
 
   @keyframes mesh-float {
@@ -830,7 +838,7 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
   }
 
   .premium-glass-dark {
-    @apply bg-black/10 backdrop-blur-xl border border-white/20 shadow-2xl;
+    @apply bg-black/40 backdrop-blur-2xl border border-white/5 shadow-2xl;
   }
 
   /* 3D Transform Utilities */
@@ -847,8 +855,8 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
   border: none !important;
   box-shadow: var(--shadow-soft) !important;
   border-radius: 0.75rem !important;
-  background-color: #212a3b !important;
-  color: white !important;
+  background-color: var(--primary) !important;
+  color: var(--primary-foreground) !important;
 }
 
 .cl-formButtonPrimary:hover {
@@ -880,8 +888,9 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
 .cl-formFieldInput {
   position: relative !important;
   z-index: 10 !important;
-  border: 1px solid var(--border-subtle) !important;
-  background-color: white !important;
+  border: 1px solid var(--border) !important;
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
   box-shadow: var(--shadow-soft-sm) !important;
   border-radius: 0.75rem !important;
 }
@@ -908,7 +917,7 @@ input[type="text"], input[type="email"], input[type="password"], textarea {
 /* Pricing cards container */
 .clerk-pricing-table-wrapper {
   padding: 0.5rem;
-  background: var(--bg-primary);
+  background: var(--background);
 }
 
 /* Center all wrappers */
@@ -992,7 +1001,8 @@ button[data-variant='unstyled'] *,
 /* Card sections have white background */
 .clerk-pricing-table-wrapper [class*='card'] > *,
 .clerk-pricing-table-wrapper > div > div > div > * {
-  background-color: white !important;
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
 }
 
 /* All buttons */

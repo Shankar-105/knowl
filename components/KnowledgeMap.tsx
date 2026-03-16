@@ -124,7 +124,7 @@ export default function KnowledgeMap({ chart }: { chart: string }) {
                     >
                         <AlertCircle className="size-16 text-red-500 mb-6 opacity-20" />
                         <h3 className="text-xl font-black text-gray-900 dark:text-white mb-2">Topology Overflow</h3>
-                        <p className="text-gray-500 text-sm max-w-xs mb-8">{renderError}</p>
+                        <p className="text-gray-500 dark:text-gray-200 text-sm max-w-xs mb-8">{renderError}</p>
                         <button 
                             onClick={() => window.location.reload()}
                             className="px-6 py-3 bg-indigo-600 text-white rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-indigo-500/20 active:scale-95"

@@ -88,7 +88,6 @@ export const generateBookInsights = async (bookId: string) => {
         }
 
         await Book.updateOne({ _id: bookId }, {
-        await Book.updateOne({ _id: bookId }, {
             insights: parsed.insights,
             knowledgeMap: parsed.knowledgeMap,
             flashcards: parsed.flashcards

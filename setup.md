@@ -1,89 +1,61 @@
-# 🛠️ Setting Up Knowl
+# 🛠️ Knowl Setup & Installation Guide
 
-Follow this comprehensive guide to get **Knowl** running on your local machine for development and research.
+Welcome to the future of conversational research. This guide will help you get your **Knowl Voice Agents** up and running on your local machine.
 
----
-
-## 📋 Prerequisites
+## 📌 Prerequisites
 
 Before you begin, ensure you have the following installed:
-- **Git**: [Download Git](https://git-scm.com/)
-- **Node.js**: [Download Node.js](https://nodejs.org/) (Version 18.x or higher recommended)
-- **npm**: Comes bundled with Node.js.
+- [Node.js 20.x](https://nodejs.org/) or later
+- [npm](https://www.npmjs.com/)
+- [Git](https://git-scm.com/)
 
----
-
-## 🤸 Quick Start
+## 🚀 Quick Start
 
 ### 1. Clone the Repository
-
 ```bash
-git clone https://github.com/Shankar-105/bookified.git
-cd bookified
+git clone https://github.com/Shankar-105/knowl.git
+cd knowl
 ```
 
 ### 2. Install Dependencies
-
 ```bash
 npm install
 ```
 
----
+### 3. Configure Environment Variables
+Create a `.env` file in the root directory and add the following keys.
 
-## 🔐 Environment Variables
+#### 🎙️ Voice AI Configuration (Critical)
+| Variable | Description | Where to find |
+|----------|-------------|---------------|
+| `NEXT_PUBLIC_VAPI_PUBLIC_KEY` | Public key for Vapi.ai | [Vapi Dashboard](https://dashboard.vapi.ai/account) |
+| `ELEVEN_LABS_API_KEY` | API key for high-fidelity voices | [ElevenLabs Profile](https://elevenlabs.io/app/settings/profile) |
 
-Knowl requires several API keys to power its AI and voice features. Create a file named `.env.local` in the root directory and add the following:
+#### 🧠 Brain & Database
+| Variable | Description | Where to find |
+|----------|-------------|---------------|
+| `GEMINI_API_KEY` | Powers AI research & synthesis | [Google AI Studio](https://aistudio.google.com/app/apikey) |
+| `MONGODB_URL` | Database for your research nodes | [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) |
 
-```env
-# --- General ---
-NODE_ENV='development'
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
+#### 🔐 Auth & Storage
+| Variable | Description | Where to find |
+|----------|-------------|---------------|
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Auth provider | [Clerk Dashboard](https://dashboard.clerk.com/) |
+| `CLERK_SECRET_KEY` | Secret auth key | [Clerk Dashboard](https://dashboard.clerk.com/) |
+| `BLOB_READ_WRITE_TOKEN` | For PDF & image storage | [Vercel Blob](https://vercel.com/storage/blob) |
 
-# --- Clerk (Authentication) ---
-# Get these from https://clerk.com/
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
-CLERK_SECRET_KEY=sk_test_...
-NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-
-# --- MongoDB (Database) ---
-# Get your connection string from https://www.mongodb.com/
-MONGODB_URI=mongodb+srv://...
-
-# --- Vapi (Voice AI Engine) ---
-# Get these from https://vapi.ai/
-NEXT_PUBLIC_VAPI_API_KEY=...
-VAPI_SERVER_SECRET=...
-
-# --- ElevenLabs (Lifelike Voices) ---
-# Get your key from https://elevenlabs.io/
-ELEVENLABS_API_KEY=...
-
-# --- Google Gemini (Embeddings & AI Analysis) ---
-# Get your key from https://aistudio.google.com/
-GOOGLE_GEMINI_API_KEY=...
-
-# --- Vercel Blob (PDF & Image Storage) ---
-# Get this from your Vercel project dashboard
-BLOB_READ_WRITE_TOKEN=...
-```
-
----
-
-## 🚀 Running the App
-
-After configuring your environment variables, start the development server:
-
+### 4. Run the Development Server
 ```bash
 npm run dev
 ```
-
-Your app should now be running at [http://localhost:3000](http://localhost:3000).
-
----
+Open [http://localhost:3000](http://localhost:3000) with your browser to start building.
 
 ## 🛠️ Troubleshooting
 
-- **Database Connection**: Ensure your MongoDB IP whitelist includes your current IP address.
-- **API Errors**: Double-check that all environment variable names exactly match the template above.
-- **Node Version**: If you encounter issues, try using the latest LTS version of Node.js.
+- **Voice Agent Not Connecting**: Ensure your Vapi,ElevenLabs public key is correct
+- **Microphone Permissions**: Browsers often block mic access on non-HTTPS local dev environments. Use `localhost` or set up a local proxy if needed.
+- **Database Errors**: Verify that your MongoDB IP whitelist includes your current IP address.
+
+---
+
+Developed with ❤️ for the future of live research with voice agents.

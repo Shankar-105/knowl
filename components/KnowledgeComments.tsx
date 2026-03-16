@@ -220,7 +220,7 @@ export default function KnowledgeComments({ bookId, bookOwnerId }: { bookId: str
                             <MessageSquare size={24} className="text-indigo-400" />
                         </div>
                         <p className="text-sm font-bold dark:text-white mb-1">No insights yet</p>
-                        <p className="text-xs text-gray-400">Be the first to share your perspective</p>
+                        <p className="text-xs text-gray-400 dark:text-gray-300">Be the first to share your perspective</p>
                     </div>
                 ) : (
                     comments.map((rawComment) => {
@@ -262,7 +262,7 @@ export default function KnowledgeComments({ bookId, bookOwnerId }: { bookId: str
                                                     Author
                                                 </span>
                                             )}
-                                            <span className="text-[10px] text-gray-500 dark:text-gray-400 font-medium tracking-tight">
+                                            <span className="text-[10px] text-gray-500 dark:text-gray-200 font-medium tracking-tight">
                                                 {formatDistanceToNow(new Date(comment.createdAt), { addSuffix: true })}
                                             </span>
                                         </div>
@@ -339,7 +339,7 @@ export default function KnowledgeComments({ bookId, bookOwnerId }: { bookId: str
                                             </div>
                                         </div>
                                     ) : (
-                                        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed break-words mb-2">{comment.text}</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-100 leading-relaxed break-words mb-2">{comment.text}</p>
                                     )}
 
                                     <div className="flex items-center gap-4">

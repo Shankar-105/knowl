@@ -1,7 +1,6 @@
 'use client';
 
 import { Mic, MicOff, Send, Plus, History, ChevronRight, UserCircle } from "lucide-react";
-import { Mic, MicOff, Send, Plus, History, ChevronRight, UserCircle } from "lucide-react";
 import useVapi from "@/hooks/useVapi";
 import { IBook } from "@/types";
 import Image from "next/image";
@@ -11,7 +10,6 @@ import HistorySidebar from "@/components/HistorySidebar";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { voiceOptions } from "@/lib/constants";
 import { voiceOptions } from "@/lib/constants";
 
 const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
@@ -23,23 +21,11 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
         sendText, startNewThread, persona, setPersona,
         threadArchive, selectedThreadId, setSelectedThreadId,
         hasArchive, setSelectedVoiceId,
-        hasArchive, setSelectedVoiceId,
     } = useVapi(book);
 
     const router = useRouter();
     const [textInput, setTextInput] = useState("");
     const [showHistory, setShowHistory] = useState(false);
-
-    // KEY FIX: Sync the voiceId prop from AIFeatures into the hook's state
-    // Without this, the hook's start() always uses the default voice regardless of user selection
-    useEffect(() => {
-        if (voiceId) {
-            setSelectedVoiceId(voiceId);
-        }
-    }, [voiceId, setSelectedVoiceId]);
-
-    // Resolve voice name for display
-    const activeVoiceName = Object.values(voiceOptions).find(v => v.id === voiceId)?.name || 'Neural';
 
     // KEY FIX: Sync the voiceId prop from AIFeatures into the hook's state
     // Without this, the hook's start() always uses the default voice regardless of user selection
@@ -100,11 +86,7 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                             <div className="flex-1 min-w-0">
                                 <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">Current Focus</p>
                                 <h4 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100 line-clamp-1 leading-tight">
-                            <div className="flex-1 min-w-0">
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 dark:text-indigo-400 mb-1">Current Focus</p>
-                                <h4 className="text-xl font-serif font-bold text-gray-900 dark:text-gray-100 line-clamp-1 leading-tight">
                                     {book.title}
-                                </h4>
                                 </h4>
                             </div>
 
@@ -113,7 +95,6 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                                 <div className="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/10 rounded-xl border border-indigo-100 dark:border-indigo-800/30 flex items-center gap-3">
                                     <UserCircle size={14} className="text-indigo-500" />
                                     <span className="text-[10px] font-black uppercase tracking-widest text-indigo-700 dark:text-indigo-400">
-                                        Assisting in {activeVoiceName} Voice
                                         Assisting in {activeVoiceName} Voice
                                     </span>
                                 </div>
@@ -153,7 +134,6 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                         {/* Chat Header */}
                         <div className="flex items-center justify-between px-4 py-3 border-b border-black/5 dark:border-white/10 shrink-0 bg-white dark:bg-[#0c0c0c]" suppressHydrationWarning>
                             <span className="text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest">
-                            <span className="text-xs font-bold text-gray-600 dark:text-gray-300 uppercase tracking-widest">
                                 {!selectedThreadId ? 'Current Chat' : 'Past Thread'}
                             </span>
                             <div className="flex items-center gap-2">
@@ -175,7 +155,6 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                                     <button
                                         onClick={() => setShowHistory(!showHistory)}
                                         className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all"
-                                        className="flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 rounded-lg transition-all"
                                         suppressHydrationWarning
                                     >
                                         <History size={13} />
@@ -192,7 +171,6 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                                 messages={currentViewMessages}
                                 currentMessage={currentMessage}
                                 currentUserMessage={currentUserMessage}
-                                currentViewMessages={currentViewMessages}
                                 isTextLoading={isTextLoading}
                                 isPastThread={!!selectedThreadId}
                             />
@@ -208,7 +186,7 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                                         onChange={(e) => setTextInput(e.target.value)}
                                         placeholder="Ask anything about the node..."
                                         disabled={isTextLoading}
-                                        className="flex-1 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-sm text-gray-900 dark:text-white placeholder:text-gray-400 placeholder:text-xs transition-all disabled:opacity-60"
+                                        className="flex-1 px-4 py-3 bg-gray-50 dark:bg-white/5 border border-black/5 dark:border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-sm text-gray-900 dark:text-white placeholder:text-gray-200 placeholder:text-xs transition-all disabled:opacity-60"
                                         suppressHydrationWarning
                                     />
                                     <button
@@ -222,7 +200,7 @@ const VapiControls = ({ book, voiceId }: { book: IBook, voiceId: string }) => {
                                 </form>
                             ) : (
                                 <div className="flex items-center justify-center gap-2 py-2">
-                                    <span className="text-xs text-gray-500 dark:text-gray-300">Viewing past thread — </span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-100">Viewing past thread — </span>
                                     <button
                                         onClick={() => startNewThread()}
                                         className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"

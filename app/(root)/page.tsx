@@ -12,42 +12,21 @@ const Page = async ({ searchParams }: { searchParams: Promise<{ query?: string }
     const books = bookResults.success ? bookResults.data ?? [] : []
 
     return (
-        <main className="wrapper container">
+        <main className="wrapper pt-10">
             <HeroSection />
-
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-5 mb-10">
-                <div className="space-y-1">
-                    <h2 className="text-3xl font-serif font-bold text-[#212a3b] dark:text-white">Discovery Hub</h2>
-                    <p className="text-gray-500 dark:text-gray-400">Discover insights shared by the community</p>
-                </div>
-                <Search />
+            
+            {/* Visual Spacer/Divider */}
+            <div className="flex justify-center py-20">
+                <div className="h-px w-24 bg-gradient-to-r from-transparent via-indigo-500/20 to-transparent" />
             </div>
 
-            {books.length > 0 ? (
-                <BookStaggeredGrid>
-                    {books.map((book: any) => (
-                    <BookCard 
-                        key={book._id} 
-                        _id={book._id.toString()} 
-                        title={book.title} 
-                        author={book.author} 
-                        coverURL={book.coverURL} 
-                        slug={book.slug}
-                        likes={book.likes}
-                        commentsCount={book.commentsCount}
-                        visibility={book.visibility}
-                    />
-                ))}
-                </BookStaggeredGrid>
-            ) : (
-                <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-                    <div className="size-20 bg-gray-100 dark:bg-white/5 rounded-full flex items-center justify-center">
-                        <span className="text-4xl text-gray-300">🔍</span>
-                    </div>
-                    <h3 className="text-xl font-bold dark:text-white">The Hub is quiet...</h3>
-                    <p className="text-gray-500 max-w-xs">Be the first to publish your distilled AI insights from your personal shelf.</p>
-                </div>
-            )}
+            <div className="max-w-4xl mx-auto text-center pb-32">
+                <h2 className="text-3xl font-serif font-black text-[#212a3b] dark:text-white italic mb-6">Built for Deep Thinkers</h2>
+                <p className="text-gray-500 dark:text-gray-400 font-medium leading-relaxed">
+                    Join a community of researchers and developers transforming static PDFs into <br />
+                    living, breathing conversational nodes. The future of knowledge is vocal.
+                </p>
+            </div>
         </main>
     )
 }
