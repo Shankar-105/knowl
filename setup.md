@@ -28,8 +28,26 @@ Create a `.env` file in the root directory and add the following keys.
 #### 🎙️ Voice AI Configuration (Critical)
 | Variable | Description | Where to find |
 |----------|-------------|---------------|
-| `NEXT_PUBLIC_VAPI_PUBLIC_KEY` | Public key for Vapi.ai | [Vapi Dashboard](https://dashboard.vapi.ai/account) |
-| `ELEVEN_LABS_API_KEY` | API key for high-fidelity voices | [ElevenLabs Profile](https://elevenlabs.io/app/settings/profile) |
+| `NEXT_PUBLIC_VAPI_API_KEY` | Public key for Vapi.ai (drives the voice loop) | [Vapi Dashboard](https://dashboard.vapi.ai/account) |
+| `NEXT_PUBLIC_ASSISTANT_ID` | The pre-configured Vapi assistant ID | [Vapi Dashboard](https://dashboard.vapi.ai/) |
+
+> **ElevenLabs voices** run *inside* Vapi — set your ElevenLabs key in the **Vapi dashboard**, not here. The app only selects the voice ID + settings.
+
+#### 🗣️ 60db Voices (optional — second TTS provider)
+60db is wired as a Vapi **custom-voice** provider via a server proxy (`/api/tts/60db`) that
+streams raw PCM from 60db's WebSocket TTS. Configure these to enable 60db voices in the picker:
+
+| Variable | Description | Where to find |
+|----------|-------------|---------------|
+| `SIXTYDB_API_KEY` | **Server-side** 60db API key (Bearer). Never `NEXT_PUBLIC_`. | [60db dashboard](https://docs.60db.ai) |
+| `SIXTYDB_PROXY_SECRET` | Optional shared secret; gates the proxy route. Must match `NEXT_PUBLIC_TTS_PROXY_SECRET`. | You choose it |
+| `NEXT_PUBLIC_TTS_PROXY_SECRET` | Client copy of the secret sent to Vapi as the webhook secret. | Same value as above |
+| `NEXT_PUBLIC_TTS_PROXY_URL` | Public base URL Vapi calls for TTS. Local dev: an [ngrok](https://ngrok.com) tunnel URL. Prod: your deployed origin (or leave unset to use `window.location.origin`). | Tunnel / deployment |
+
+> **Local dev note:** Vapi calls the proxy from its own servers, so `localhost` is unreachable.
+> Run a tunnel (`ngrok http 3000`) and set `NEXT_PUBLIC_TTS_PROXY_URL` to the tunnel URL to test 60db voices locally. ElevenLabs voices need no tunnel.
+>
+> **Adding more 60db voices:** `curl -H "Authorization: Bearer $SIXTYDB_API_KEY" https://api.60db.ai/myvoices`, then paste each `voice_id` into `voiceOptions` in `lib/constants.ts`.
 
 #### 🧠 Brain & Database
 | Variable | Description | Where to find |

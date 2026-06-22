@@ -104,27 +104,61 @@ export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'im
 // Pre-configured VAPI assistant ID (hardcoded for this app)
 export const ASSISTANT_ID = process.env.NEXT_PUBLIC_ASSISTANT_ID || '';
 
-// 11Labs Voice IDs - Optimized for conversational AI
-// Voices selected for natural, engaging book conversations
-export const voiceOptions = {
+// Voice provider identifiers.
+// '11labs'  -> handled natively by Vapi (voice runs inside the Vapi pipeline)
+// '60db'    -> routed through our custom-voice proxy (/api/tts/60db) which streams
+//              raw PCM from 60db's WebSocket TTS back to Vapi. See useVapi.start().
+export type VoiceProvider = '11labs' | '60db';
+
+export type VoiceOption = {
+    id: string;
+    name: string;
+    description: string;
+    category: 'Male' | 'Female';
+    language: string;
+    provider: VoiceProvider;
+};
+
+// Unified voice catalog. Each entry is tagged with a `provider` so the picker can
+// show a provider badge and useVapi can build the correct Vapi voice config.
+// Voices selected for natural, engaging book conversations.
+export const voiceOptions: Record<string, VoiceOption> = {
+    // --- ElevenLabs (provider: '11labs') ---
     // English Male
-    dave: { id: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', description: 'Young male, British-Essex, casual & conversational', category: 'Male', language: 'en' },
-    daniel: { id: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', description: 'Middle-aged male, British, authoritative but warm', category: 'Male', language: 'en' },
-    chris: { id: 'iP95p4xoKVk53GoZ742B', name: 'Chris', description: 'Male, casual & easy-going', category: 'Male', language: 'en' },
-    
+    dave: { id: 'CYw3kZ02Hs0563khs1Fj', name: 'Dave', description: 'Young male, British-Essex, casual & conversational', category: 'Male', language: 'en', provider: '11labs' },
+    daniel: { id: 'onwK4e9ZLuTAKqWW03F9', name: 'Daniel', description: 'Middle-aged male, British, authoritative but warm', category: 'Male', language: 'en', provider: '11labs' },
+    chris: { id: 'iP95p4xoKVk53GoZ742B', name: 'Chris', description: 'Male, casual & easy-going', category: 'Male', language: 'en', provider: '11labs' },
+
     // English Female
-    rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Young female, American, calm & clear', category: 'Female', language: 'en' },
-    sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Young female, American, soft & approachable', category: 'Female', language: 'en' },
+    rachel: { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', description: 'Young female, American, calm & clear', category: 'Female', language: 'en', provider: '11labs' },
+    sarah: { id: 'EXAVITQu4vr4xnSDxMaL', name: 'Sarah', description: 'Young female, American, soft & approachable', category: 'Female', language: 'en', provider: '11labs' },
+
+    // --- 60db (provider: '60db') ---
+    // These IDs are 60db `voice_id`s. The first is 60db's documented default voice.
+    // To add more: call `GET https://api.60db.ai/myvoices` (Bearer SIXTYDB_API_KEY),
+    // copy each `voice_id`, and add an entry below + a key in `voiceCategories`.
+    sixtydb_default: { id: 'fbb75ed2-975a-40c7-9e06-38e30524a9a1', name: 'Aria (60db)', description: '60db neural voice — multilingual (English + Indian languages), low latency', category: 'Female', language: 'en', provider: '60db' },
+    // sixtydb_custom: { id: 'PASTE_VOICE_ID_HERE', name: 'My Voice (60db)', description: '...', category: 'Male', language: 'en', provider: '60db' },
 };
 
 // Voice categories for the selector UI
-export const voiceCategories = {
+export const voiceCategories: Record<string, string[]> = {
     male: ['dave', 'daniel', 'chris'],
-    female: ['rachel', 'sarah'],
+    female: ['rachel', 'sarah', 'sixtydb_default'],
+};
+
+// Human-readable provider labels for the picker badge
+export const VOICE_PROVIDER_LABELS: Record<VoiceProvider, string> = {
+    '11labs': 'ElevenLabs',
+    '60db': '60db',
 };
 
 // Default voice
 export const DEFAULT_VOICE = 'rachel';
+
+// ElevenLabs fallback used by the 60db custom-voice config (if 60db is unreachable,
+// Vapi automatically falls back to this ElevenLabs voice mid-call).
+export const ELEVEN_FALLBACK_VOICE_ID = '21m00Tcm4TlvDq8ikWAM'; // Rachel
 
 // ElevenLabs voice settings optimized for conversational AI
 export const VOICE_SETTINGS = {
@@ -133,6 +167,14 @@ export const VOICE_SETTINGS = {
     style: 0, // Keep at 0 for conversational AI (higher = more latency, less stable)
     useSpeakerBoost: true, // Improves voice quality
     speed: 1.0, // Natural conversation speed
+};
+
+// 60db voice settings (0-100 scale, mirrors VOICE_SETTINGS intent).
+// Forwarded to the proxy as query params and on to 60db's WebSocket create_context.
+export const SIXTYDB_VOICE_SETTINGS = {
+    stability: 50, // 0-100, lower = more expressive, higher = more consistent
+    similarity: 75, // 0-100, how closely output matches the source voice
+    speed: 1.0, // 0.5-2.0 speech rate multiplier
 };
 
 // VAPI configuration for natural conversation

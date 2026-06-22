@@ -5,7 +5,7 @@ import Vapi from '@vapi-ai/web';
 import { useAuth } from '@clerk/nextjs';
 
 import { useSubscription } from '@/hooks/useSubscription';
-import { ASSISTANT_ID, DEFAULT_VOICE, voiceOptions, VOICE_SETTINGS } from '@/lib/constants';
+import { ASSISTANT_ID, DEFAULT_VOICE, voiceOptions, VOICE_SETTINGS, SIXTYDB_VOICE_SETTINGS, ELEVEN_FALLBACK_VOICE_ID } from '@/lib/constants';
 import { getVoice } from '@/lib/utils';
 import { IBook, Messages } from '@/types';
 import { startVoiceSession, endVoiceSession } from '@/lib/actions/session.actions';
@@ -226,6 +226,7 @@ export function useVapi(book: IBook) {
 
       const lang = voiceMeta.language || 'en';
       const activeVoiceId = voiceMeta.id;
+      const voiceProvider = voiceMeta.provider || '11labs';
 
       // Build context from current thread messages (last 20)
       const threadCtxStr = messages
@@ -265,7 +266,49 @@ export function useVapi(book: IBook) {
         return;
       }
 
-      console.log('[Vapi] Starting session with:', { voiceId: activeVoiceId, assistantId: ASSISTANT_ID });
+      // --- Build the voice config based on the selected provider ---
+      // '11labs' runs natively inside Vapi. '60db' is not a native Vapi provider,
+      // so we use Vapi's 'custom-voice' mode: Vapi POSTs each utterance to our
+      // /api/tts/60db proxy, which streams raw PCM from 60db's WebSocket TTS back.
+      // The 60db voice_id + settings travel as query params (voice-request has no voiceId).
+      let voiceConfig: any;
+      if (voiceProvider === '60db') {
+        // Public base URL Vapi must be able to reach. In local dev, point this at a
+        // tunnel (e.g. ngrok) via NEXT_PUBLIC_TTS_PROXY_URL; otherwise use the app origin.
+        const proxyBase =
+          process.env.NEXT_PUBLIC_TTS_PROXY_URL ||
+          (typeof window !== 'undefined' ? window.location.origin : '');
+        const qs = new URLSearchParams({
+          voice_id: activeVoiceId,
+          stability: String(SIXTYDB_VOICE_SETTINGS.stability),
+          similarity: String(SIXTYDB_VOICE_SETTINGS.similarity),
+          speed: String(SIXTYDB_VOICE_SETTINGS.speed),
+        }).toString();
+
+        voiceConfig = {
+          provider: 'custom-voice',
+          server: {
+            url: `${proxyBase}/api/tts/60db?${qs}`,
+            ...(process.env.NEXT_PUBLIC_TTS_PROXY_SECRET
+              ? { secret: process.env.NEXT_PUBLIC_TTS_PROXY_SECRET }
+              : {}),
+            timeoutSeconds: 30,
+          },
+          // If 60db is unreachable/slow, Vapi falls back to ElevenLabs mid-call.
+          fallbackPlan: {
+            voices: [{ provider: '11labs', voiceId: ELEVEN_FALLBACK_VOICE_ID }],
+          },
+        };
+      } else {
+        voiceConfig = {
+          provider: '11labs',
+          voiceId: activeVoiceId,
+          model: voiceModel,
+          ...VOICE_SETTINGS,
+        };
+      }
+
+      console.log('[Vapi] Starting session with:', { provider: voiceProvider, voiceId: activeVoiceId, assistantId: ASSISTANT_ID });
 
       await vapi.start(ASSISTANT_ID, {
         firstMessage,
@@ -282,12 +325,7 @@ export function useVapi(book: IBook) {
             content: sys,
           }]
         },
-        voice: {
-          provider: '11labs',
-          voiceId: activeVoiceId,
-          model: voiceModel,
-          ...VOICE_SETTINGS,
-        },
+        voice: voiceConfig,
       });
       console.log('[Vapi] start() requested');
     } catch (e: any) {

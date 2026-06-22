@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { generateBookInsights } from "@/lib/actions/ai.actions";
 import { toggleBookPrivacy, likeBook } from "@/lib/actions/knowledge.actions";
 import { updateBookTags } from "@/lib/actions/book.actions";
-import { voiceOptions, voiceCategories, DEFAULT_VOICE } from "@/lib/constants";
+import { voiceOptions, voiceCategories, DEFAULT_VOICE, VOICE_PROVIDER_LABELS } from "@/lib/constants";
 import { IBook } from "@/types";
 import { useUser } from "@clerk/nextjs";
 import VapiControls from "./VapiControls";
@@ -410,7 +410,7 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                                         </h4>
                                                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                                             {voices.map((vKey) => {
-                                                                const voice = (voiceOptions as any)[vKey];
+                                                                const voice = voiceOptions[vKey];
                                                                 const isSelected = selectedVoiceId === voice.id;
                                                                 return (
                                                                     <button
@@ -431,7 +431,17 @@ export default function AIFeatures({ book }: { book: IBook }) {
                                                                             <span className={cn("text-xs font-black uppercase tracking-widest", isSelected ? "text-white/90" : "text-indigo-600 dark:text-indigo-400")}>
                                                                                 {voice.name}
                                                                             </span>
-                                                                            {isSelected && <CheckCircle2 size={16} className="text-white" />}
+                                                                            <div className="flex items-center gap-2">
+                                                                                <span className={cn(
+                                                                                    "px-2 py-0.5 rounded-full text-[8px] font-black uppercase tracking-wider border",
+                                                                                    isSelected
+                                                                                        ? "bg-white/15 text-white/80 border-white/20"
+                                                                                        : "bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-gray-300 border-black/5 dark:border-white/10"
+                                                                                )}>
+                                                                                    {VOICE_PROVIDER_LABELS[voice.provider]}
+                                                                                </span>
+                                                                                {isSelected && <CheckCircle2 size={16} className="text-white" />}
+                                                                            </div>
                                                                         </div>
                                                                         <p className={cn("text-[11px] font-medium leading-relaxed", isSelected ? "text-white/70" : "text-gray-500 dark:text-gray-200")}>
                                                                             {voice.description}

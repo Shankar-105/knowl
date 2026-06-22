@@ -8,6 +8,7 @@
     <img src="https://img.shields.io/badge/-React_19-61DAFB?style=for-the-badge&logo=React&logoColor=black" />
     <img src="https://img.shields.io/badge/-Vapi-62F6B5?style=for-the-badge&logo=Vapi&logoColor=black" />
     <img src="https://img.shields.io/badge/-ElevenLabs-FFFFFF?style=for-the-badge&logo=ElevenLabs&logoColor=black" />
+    <img src="https://img.shields.io/badge/-60db-4F46E5?style=for-the-badge&logoColor=white" />
     <img src="https://img.shields.io/badge/-Google_Gemini-8E75B2?style=for-the-badge&logo=Google-Gemini&logoColor=white" />
     <img src="https://img.shields.io/badge/-Tailwind_4-06B6D4?style=for-the-badge&logo=Tailwind-CSS&logoColor=white" />
   </div>
@@ -30,10 +31,11 @@
 
 ## <a name="voice-agents">🎙️ Autonomous Voice Agents</a>
 
-At the heart of Knowl are context-aware Voice Agents. Powered by **Vapi** and **ElevenLabs**, these agents:
+At the heart of Knowl are context-aware Voice Agents. Powered by **Vapi**, **ElevenLabs**, and **60db**, these agents:
 - **Understand Deep Context**: They don't just read text; they grasp the specialized knowledge within your documents.
 - **Speak Naturally**: With high-fidelity, low-latency voices, interactions feel human.
-- **Code-Switching & Regional Support**: Our agents are being built to support multiple languages and regional dialects, making knowledge accessible globally.
+- **Dual Voice Providers**: Choose any voice from **ElevenLabs** or **60db** in a single, unified picker — each voice is tagged with its provider, and the agent works identically either way.
+- **Code-Switching & Regional Support**: With 60db's multilingual engine (English + major Indian languages), our agents support multiple languages and regional dialects, making knowledge accessible globally.
 
 ## <a name="social-hub">🌐 Social Discovery Hub</a>
 
@@ -46,14 +48,16 @@ Knowl bridges the gap between private research and community intelligence.
 ## <a name="tech-stack">⚙️ Powering the Future</a>
 
 - **[Next.js 16](https://nextjs.org/) & [React 19](https://react.dev/)**: The bleeding edge of web performance.
-- **[Vapi](https://vapi.ai/)**: The ultimate platform for low-latency, conversational Voice AI.
-- **[ElevenLabs](https://elevenlabs.io/)**: The world's most realistic AI voices.
+- **[Vapi](https://vapi.ai/)**: The ultimate platform for low-latency, conversational Voice AI. Orchestrates the full voice loop (speech-to-text → LLM → text-to-speech).
+- **[ElevenLabs](https://elevenlabs.io/)**: The world's most realistic AI voices — runs natively inside the Vapi pipeline.
+- **[60db](https://60db.ai/)**: A second TTS provider with multilingual (English + Indian language) voices, integrated as a Vapi **custom-voice** provider through a server proxy that streams raw PCM from 60db's WebSocket TTS.
 - **[Google Gemini AI](https://aistudio.google.com/)**: Multi-modal analysis and high-dimensional embeddings.
 - **[Tailwind CSS 4](https://tailwindcss.com/)**: A futuristic design system for a premium interface.
 
 ## <a name="features">🔋 Advanced Capabilities</a>
 
 - 🎙️ **Vocal Intelligence**: Real-time discussions with specialized knowledge nodes.
+- 🗣️ **Dual Voice Engines**: Pick an **ElevenLabs** or **60db** voice from one unified, provider-tagged selector — switch freely without changing how you talk to your node.
 - 🗺️ **Neural Mapping**: AI-generated visual structures of complex research topics.
 - 📤 **Instant Deployment**: Publish your personal research shelf to the global hub.
 - 📝 **Live Session History**: Every verbal insight captured with real-time transcripts.
